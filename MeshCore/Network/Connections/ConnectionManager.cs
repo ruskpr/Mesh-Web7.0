@@ -210,6 +210,7 @@ namespace MeshCore.Network.Connections
             _localPeerId = BinaryNumber.GenerateRandomNumber256();
 
             //tor proxy
+            // COMMENTED OUT FOR WEB 7.0 DEVELOPMENT
             //_torProxy = new NetProxy(new SocksClient(_torController.Socks5EndPoint));
 
             if (_node.Type == MeshNodeType.Anonymous)
