@@ -210,7 +210,7 @@ namespace MeshCore.Network.Connections
             _localPeerId = BinaryNumber.GenerateRandomNumber256();
 
             //tor proxy
-            _torProxy = new NetProxy(new SocksClient(_torController.Socks5EndPoint));
+            //_torProxy = new NetProxy(new SocksClient(_torController.Socks5EndPoint));
 
             if (_node.Type == MeshNodeType.Anonymous)
             {
