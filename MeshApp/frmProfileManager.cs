@@ -33,7 +33,7 @@ namespace MeshApp
         #region variables
 
         readonly MeshUpdate _meshUpdate;
-        readonly TorController _torController;
+        //readonly TorController _torController;
         string _profileFolder;
         bool _isPortableApp;
 
@@ -59,9 +59,12 @@ namespace MeshApp
             _meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
 
             //init tor controller
-            _torController = new TorController(torExecutableFilePath);
-            _torController.Socks5EndPoint = new IPEndPoint(IPAddress.Loopback, 9950);
-            _torController.ControlPort = 9951;
+
+            // DISABLED THE TOR CONTROLLER FOR WEB 7 DEVELOPMENT
+
+            //_torController = new TorController(torExecutableFilePath);
+            //_torController.Socks5EndPoint = new IPEndPoint(IPAddress.Loopback, 9950);
+            //_torController.ControlPort = 9951;
         }
 
         #endregion
