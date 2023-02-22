@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MeshCore</RootNamespace>
     <AssemblyName>MeshCore</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,22 +34,25 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="TechnitiumLibrary.IO">
-      <HintPath>..\..\..\TechnitiumLibrary\bin\TechnitiumLibrary.IO.dll</HintPath>
+      <HintPath>..\..\..\mesh_standalone\TechnitiumLibrary.IO.dll</HintPath>
     </Reference>
     <Reference Include="TechnitiumLibrary.Net">
-      <HintPath>..\..\..\TechnitiumLibrary\bin\TechnitiumLibrary.Net.dll</HintPath>
+      <HintPath>..\..\..\mesh_standalone\TechnitiumLibrary.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Net.Firewall">
+      <HintPath>..\..\..\mesh_standalone\TechnitiumLibrary.Net.Firewall.dll</HintPath>
     </Reference>
     <Reference Include="TechnitiumLibrary.Net.Tor">
-      <HintPath>..\..\..\TechnitiumLibrary\bin\TechnitiumLibrary.Net.Tor.dll</HintPath>
+      <HintPath>..\..\..\mesh_standalone\TechnitiumLibrary.Net.Tor.dll</HintPath>
     </Reference>
     <Reference Include="TechnitiumLibrary.Net.UPnP">
-      <HintPath>..\..\..\TechnitiumLibrary\bin\TechnitiumLibrary.Net.UPnP.dll</HintPath>
+      <HintPath>..\..\..\mesh_standalone\TechnitiumLibrary.Net.UPnP.dll</HintPath>
     </Reference>
     <Reference Include="TechnitiumLibrary.Security.Cryptography">
-      <HintPath>..\..\..\TechnitiumLibrary\bin\TechnitiumLibrary.Security.Cryptography.dll</HintPath>
+      <HintPath>..\..\..\mesh_standalone\TechnitiumLibrary.Security.Cryptography.dll</HintPath>
     </Reference>
     <Reference Include="TechnitiumLibrary.Security.Cryptography.EllipticCurve">
-      <HintPath>..\..\..\TechnitiumLibrary\bin\TechnitiumLibrary.Security.Cryptography.EllipticCurve.dll</HintPath>
+      <HintPath>..\..\..\mesh_standalone\TechnitiumLibrary.Security.Cryptography.EllipticCurve.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
