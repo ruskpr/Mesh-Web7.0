@@ -157,7 +157,7 @@ namespace MeshApp
                     else
                         localServicePort = 0; //new random port at startup for Tor node
 
-                    MeshNode node = new MeshNode(frm.NodeType, frm.PrivateKey, SecureChannelCipherSuite.ECDHE256_RSA2048_WITH_AES256_CBC_HMAC_SHA256 | SecureChannelCipherSuite.DHE2048_RSA2048_WITH_AES256_CBC_HMAC_SHA256, Convert.ToUInt16(localServicePort), frm.ProfileDisplayName, _profileFolder, GetDownloadFolder(), _torController);
+                    MeshNode node = new MeshNode(frm.NodeType, frm.PrivateKey, SecureChannelCipherSuite.ECDHE256_RSA2048_WITH_AES256_CBC_HMAC_SHA256 | SecureChannelCipherSuite.DHE2048_RSA2048_WITH_AES256_CBC_HMAC_SHA256, Convert.ToUInt16(localServicePort), frm.ProfileDisplayName, _profileFolder, GetDownloadFolder(), null);
 
                     if (frm.NodeType == MeshNodeType.P2P)
                     {
@@ -266,7 +266,7 @@ namespace MeshApp
             {
                 using (FileStream fS = new FileStream(profileFilePath, FileMode.Open, FileAccess.Read))
                 {
-                    MeshNode node = new MeshNode(fS, txtPassword.Text, _profileFolder, _torController);
+                    MeshNode node = new MeshNode(fS, txtPassword.Text, _profileFolder, null);
 
                     if (_isPortableApp || !Directory.Exists(node.DownloadFolder))
                         node.DownloadFolder = GetDownloadFolder();
@@ -390,7 +390,7 @@ namespace MeshApp
                 frm.Value.Close();
 
             _meshUpdate.Dispose();
-            _torController.Dispose();
+            //_torController.Dispose();
         }
 
         #endregion
