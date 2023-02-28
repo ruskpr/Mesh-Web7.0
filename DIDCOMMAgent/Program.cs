@@ -11,7 +11,9 @@ namespace DIDCOMMAgent
         {
             public override void DIDCOMMEndpointHandler(DIDCOMMMessage request, out DIDCOMMResponse response)
             {
+                Console.WriteLine($"REQUEST: {request.encryptedMessage.ciphertext64}");
                 response.rc = (int)Trinity.TrinityErrorCode.E_SUCCESS;
+                Console.WriteLine($"RESPONSE: {response.rc}");
             }
         }
 
