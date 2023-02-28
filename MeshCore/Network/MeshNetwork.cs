@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
@@ -1418,6 +1419,44 @@ namespace MeshCore.Network
 
                 RaiseEventMessageReceived(_selfPeer, msg);
             });
+        }
+
+        public void SendTextMessage_DIDComm(string message)
+        {
+            if (message.Length > MAX_MESSAGE_SIZE)
+                throw new IOException("MeshNetwork message data size cannot exceed " + MAX_MESSAGE_SIZE + " bytes.");
+
+            string emJson = "{\"message\": " + "\""+ message + "\"}";
+
+            using (var httpClient = new HttpClient())
+            {
+                string agentUrl = "http://localhost:8081/DIDCOMMEndpoint/";
+                Console.WriteLine($">>>Agent Url: {agentUrl}");
+
+                using (var requestMessage = new HttpRequestMessage(new HttpMethod("POST"), agentUrl))
+                {
+                    requestMessage.Headers.TryAddWithoutValidation("Accept", "application/json");
+                    Console.WriteLine($">>>Payload: {emJson}");
+                    requestMessage.Content = new StringContent(emJson);
+                    var task = httpClient.SendAsync(requestMessage);
+                    task.Wait();
+                    var result = task.Result;
+                    string jsonResponse = result.Content.ReadAsStringAsync().Result;
+                    Console.WriteLine($">>>Response: {jsonResponse}");
+                }
+            }
+
+            //MessageRecipient[] msgRcpt = GetMessageRecipients();
+
+            //MessageItem msg = new MessageItem(DateTime.UtcNow, _userId, msgRcpt, MessageType.TextMessage, message, null, null, 0, null);
+            //msg.WriteTo(_store);
+
+            //ThreadPool.QueueUserWorkItem(delegate (object state)
+            //{
+            //    SendMessageBroadcast(msg.GetMeshNetworkPacket());
+
+            //    RaiseEventMessageReceived(_selfPeer, msg);
+            //});
         }
 
         public void SendInlineImage(string message, string filePath, byte[] imageThumbnail)
