@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug.cs" />
+    <Compile Include="DIDComm\DIDCommMessage.cs" />
     <Compile Include="IDebug.cs" />
     <Compile Include="MeshException.cs" />
     <Compile Include="MeshNode.cs" />

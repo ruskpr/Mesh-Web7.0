@@ -48,6 +48,8 @@ namespace MeshApp
         [STAThread]
         public static void Main(string[] args)
         {
+            //TODO: Start Didcomm agent executable from winform MAIN method
+            
             try
             {
                 Application.EnableVisualStyles();

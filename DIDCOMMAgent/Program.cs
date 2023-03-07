@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 
 namespace DIDCOMMAgent
 {
-    internal class Program
+    public class Program
     {
         #region DIDCOMM endpoint handler
-
         class DIDCOMMAgent : DIDCOMMAgentBase
         {
             public override void DIDCOMMEndpointHandler(DIDCOMMMessage request, out DIDCOMMResponse response)
@@ -20,7 +19,7 @@ namespace DIDCOMMAgent
 
         #region Main()
 
-        public static void Main(string[] args)
+        public static void Main()
         {
             Trinity.TrinityConfig.HttpPort = 8081;
 
