@@ -272,8 +272,12 @@ namespace MeshApp.UserControls
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            _network.SendTextMessage_DIDComm(txtMessage.Text);
-            txtMessage.Focus();
+            if (txtMessage.Text != "")
+            {
+                _network.SendTextMessage_DIDComm(txtMessage.Text);
+                txtMessage.Text = "";
+                txtMessage.Focus();
+            }
         }
 
         private void btnShareFile_Click(object sender, EventArgs e)
