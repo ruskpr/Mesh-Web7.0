@@ -5,15 +5,14 @@ namespace DIDCOMMAgent
 {
     internal class Program
     {
-        #region DidComm endpoint handler
+        #region DIDCOMM endpoint handler
 
         class DIDCOMMAgent : DIDCOMMAgentBase
         {
             public override void DIDCOMMEndpointHandler(DIDCOMMMessage request, out DIDCOMMResponse response)
             {
-                Console.WriteLine($"REQUEST: {request.encryptedMessage.ciphertext64}");
                 response.rc = (int)Trinity.TrinityErrorCode.E_SUCCESS;
-                Console.WriteLine($"RESPONSE: {response.rc}");
+                Console.WriteLine($"RESPONSE CODE: {response.rc}");
             }
         }
 
