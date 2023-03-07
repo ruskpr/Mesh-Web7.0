@@ -1446,17 +1446,17 @@ namespace MeshCore.Network
                 }
             }
 
-            //MessageRecipient[] msgRcpt = GetMessageRecipients();
+            MessageRecipient[] msgRcpt = GetMessageRecipients();
 
-            //MessageItem msg = new MessageItem(DateTime.UtcNow, _userId, msgRcpt, MessageType.TextMessage, message, null, null, 0, null);
-            //msg.WriteTo(_store);
+            MessageItem msg = new MessageItem(DateTime.UtcNow, _userId, msgRcpt, MessageType.TextMessage, message, null, null, 0, null);
+            msg.WriteTo(_store);
 
-            //ThreadPool.QueueUserWorkItem(delegate (object state)
-            //{
-            //    SendMessageBroadcast(msg.GetMeshNetworkPacket());
+            ThreadPool.QueueUserWorkItem(delegate (object state)
+            {
+                SendMessageBroadcast(msg.GetMeshNetworkPacket());
 
-            //    RaiseEventMessageReceived(_selfPeer, msg);
-            //});
+                RaiseEventMessageReceived(_selfPeer, msg);
+            });
         }
 
         public void SendInlineImage(string message, string filePath, byte[] imageThumbnail)
