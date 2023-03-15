@@ -1,0 +1,147 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mesh_Core\Mesh_Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="TechnitiumLibrary.IO">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Net">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Net.Firewall">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Net.Firewall.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Net.Tor">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Net.Tor.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Net.UPnP">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Net.UPnP.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Security.Cryptography">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Security.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Security.Cryptography.EllipticCurve">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Security.Cryptography.EllipticCurve.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmAddGroupChat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmAddPrivateChat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmChatProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmCreateProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmEditProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmForwardToNetwork.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmImageDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmImportPEM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmMessageInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmNetworkInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmProfileManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmProxyConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmViewGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmViewProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmViewUserDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserControls\ChatListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\ChatMessageFileItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\ChatMessageInfoItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\ChatMessageTextItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\ChatMessageView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\CustomButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="UserControls\CustomListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\CustomListViewItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\CustomListViewPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\CustomPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\MeshNetworkPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\UserListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="frmForwardToNetwork.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="frmViewProfile.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="UserControls\ChatMessageInfoItem.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="UserControls\ChatMessageTextItem.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

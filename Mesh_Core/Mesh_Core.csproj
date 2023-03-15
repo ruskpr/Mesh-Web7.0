@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="TechnitiumLibrary.IO">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Net">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Net.Firewall">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Net.Firewall.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Net.Tor">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Net.Tor.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Net.UPnP">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Net.UPnP.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Security.Cryptography">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Security.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="TechnitiumLibrary.Security.Cryptography.EllipticCurve">
+      <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.Security.Cryptography.EllipticCurve.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
