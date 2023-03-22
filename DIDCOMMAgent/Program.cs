@@ -31,7 +31,7 @@ namespace DIDCOMMAgent
 
             DIDCOMMAgent didAgent = new DIDCOMMAgent();
             didAgent.Start();
-            Console.WriteLine("DIDCOMM Agent start...");
+            Console.WriteLine("DIDCOMM Agent started...");
 
             //Console.WriteLine("Press Enter to stop DIDCOMM Agent...");
             Console.ReadLine();
