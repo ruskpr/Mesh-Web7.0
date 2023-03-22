@@ -111,7 +111,6 @@ namespace Mesh_App
 
                 #endregion
 
-                // TODO: possibly change the tor exe to the didcomm exe?
                 Application.Run(new frmProfileManager(Path.Combine(Path.GetDirectoryName(appPath), "tor", "tor.exe")));
             }
             catch (Exception ex)
