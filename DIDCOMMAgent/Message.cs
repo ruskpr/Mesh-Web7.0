@@ -25,11 +25,13 @@ namespace DIDCOMMAgent
                    SenderKey = senderPublicKey, // sender public key
                    ReceiverKey = recipientSecretKey // reciever secret key
                }
-           );
+            );
 
             var plaintext = decryptedMessage.Plaintext;
+
             CoreMessage core = new CoreMessage();
             core.MergeFrom(plaintext);
+
             BasicMessage basic = new BasicMessage();
             basic.MergeFrom(core.Body);
 
