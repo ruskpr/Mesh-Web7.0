@@ -96,18 +96,10 @@
   <metadata name="mnuSystemTray.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>134, 21</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="mnuAbout.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABtSURBVFhH7Y5BCoBADAN9rX/ytfUUkLCl5rA0SgfmEkqZ
-        47wiOvUJ2EX2H/sE+ARkMqubNzLYfQIYdVfBnwn4boAqg/1/AUy1T4B/gCpT7b4BKtmfap8A3wDsqszq
-        5ql/wC7wfwJ8ArpsDoi4AcX8ErNBsPpeAAAAAElFTkSuQmCC
-</value>
-  </data>
   <metadata name="iconSystemTray.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>16, 19</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="iconSystemTray.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAUAICAQAAAAAADoAgAAVgAAACAgAAAAAAAAqAgAAD4DAAAwMAAAAAAAAKgOAADmCwAAEBAQAAAA

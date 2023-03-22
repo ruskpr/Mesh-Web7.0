@@ -41,6 +41,7 @@ namespace Mesh_App
         static bool _firewallEntryExists;
         static Mutex _app;
 
+        public static Process? AgentProcess;
         #endregion
 
         #region public
@@ -48,10 +49,19 @@ namespace Mesh_App
         [STAThread]
         public static void Main(string[] args)
         {
-            //TODO: Start Didcomm agent executable from winform MAIN method
-            
+            // start didcomm agent
+            if (Process.GetProcessesByName("DIDCOMMAgent").Length == 0)
+            {
+                ProcessStartInfo startinfo = new ProcessStartInfo();
+                startinfo.FileName = "DIDCOMMAgent.exe";
+                startinfo.UseShellExecute = true;
+                //startinfo.CreateNoWindow = true;
+                AgentProcess = Process.Start(startinfo);
+            }
+
             try
             {
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 

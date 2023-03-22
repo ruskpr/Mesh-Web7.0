@@ -53,15 +53,15 @@ namespace Mesh_App
         #endregion
 
         #region constructor
-
-        public frmMain(MeshNode node, string profileFilePath, bool isPortableApp, MeshUpdate meshUpdate, frmProfileManager profileManager)
+        // MeshUpdate meshUpdate,
+        public frmMain(MeshNode node, string profileFilePath, bool isPortableApp, frmProfileManager profileManager)
         {
             InitializeComponent();
 
             _node = node;
             _profileFilePath = profileFilePath;
             _isPortableApp = isPortableApp;
-            _meshUpdate = meshUpdate;
+            //_meshUpdate = meshUpdate;
             _profileManager = profileManager;
 
             _node.InvitationReceived += MeshNode_InvitationReceived;
@@ -69,9 +69,9 @@ namespace Mesh_App
             if (_node.Type == MeshNodeType.Anonymous)
                 this.Text += " [Anonymous]";
 
-            _meshUpdate.UpdateAvailable += meshUpdate_UpdateAvailable;
-            _meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
-            _meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
+            //_meshUpdate.UpdateAvailable += meshUpdate_UpdateAvailable;
+            //_meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
+            //_meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
         }
 
         #endregion

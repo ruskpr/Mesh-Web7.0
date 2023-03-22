@@ -53,10 +53,10 @@ namespace Mesh_App
             RefreshProfileList();
 
             //init mesh update
-            _meshUpdate = new MeshUpdate(_isPortableApp ? Program.UPDATE_URI_WINDOWS_PORTABLE_APP : Program.UPDATE_URI_WINDOWS_SETUP_APP, Program.UPDATE_CHECK_INTERVAL);
-            _meshUpdate.UpdateAvailable += meshUpdate_UpdateAvailable;
-            _meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
-            _meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
+            //_meshUpdate = new MeshUpdate(_isPortableApp ? Program.UPDATE_URI_WINDOWS_PORTABLE_APP : Program.UPDATE_URI_WINDOWS_SETUP_APP, Program.UPDATE_CHECK_INTERVAL);
+            //_meshUpdate.UpdateAvailable += meshUpdate_UpdateAvailable;
+            //_meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
+            //_meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
 
             //init tor controller
 
@@ -190,7 +190,7 @@ namespace Mesh_App
 
         private void LoadProfileMainForm(string profileName, MeshNode node, string profileFilePath)
         {
-            frmMain frmMain = new frmMain(node, profileFilePath, _isPortableApp, _meshUpdate, this);
+            frmMain frmMain = new frmMain(node, profileFilePath, _isPortableApp, this);
             _runningProfiles.Add(profileName, frmMain);
 
             ToolStripMenuItem mnuItem = new ToolStripMenuItem(profileName);
@@ -389,7 +389,7 @@ namespace Mesh_App
             foreach (KeyValuePair<string, frmMain> frm in _runningProfiles)
                 frm.Value.Close();
 
-            _meshUpdate.Dispose();
+            //_meshUpdate.Dispose();
             //_torController.Dispose();
         }
 

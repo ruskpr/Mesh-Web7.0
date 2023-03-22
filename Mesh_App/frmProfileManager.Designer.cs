@@ -223,7 +223,7 @@
             // 
             // mnuAbout
             // 
-            mnuAbout.Image = (Image)resources.GetObject("mnuAbout.Image");
+            mnuAbout.Image = Properties.Resources.logo2;
             mnuAbout.Name = "mnuAbout";
             mnuAbout.Size = new Size(168, 22);
             mnuAbout.Text = "&About Mesh";
