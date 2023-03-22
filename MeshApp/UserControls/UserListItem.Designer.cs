@@ -1,4 +1,4 @@
-﻿namespace MeshApp.UserControls
+﻿namespace Mesh_App.UserControls
 {
     partial class UserListItem
     {

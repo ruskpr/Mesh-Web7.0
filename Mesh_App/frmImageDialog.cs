@@ -23,7 +23,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 
-namespace MeshApp
+namespace Mesh_App
 {
     public partial class frmImageDialog : Form
     {

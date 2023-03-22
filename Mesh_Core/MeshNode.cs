@@ -17,9 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore.Network;
-using MeshCore.Network.Connections;
-using MeshCore.Network.SecureChannel;
+using Mesh_Core.Network;
+using Mesh_Core.Network.Connections;
+using Mesh_Core.Network.SecureChannel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,7 +33,7 @@ using TechnitiumLibrary.Net;
 using TechnitiumLibrary.Net.Proxy;
 using TechnitiumLibrary.Net.Tor;
 
-namespace MeshCore
+namespace Mesh_Core
 {
     public delegate void MeshNetworkInvitation(MeshNetwork network);
 

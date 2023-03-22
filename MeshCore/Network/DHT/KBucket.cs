@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Threading;
 using TechnitiumLibrary.IO;
 
-namespace MeshCore.Network.DHT
+namespace Mesh_Core.Network.DHT
 {
     class KBucket
     {

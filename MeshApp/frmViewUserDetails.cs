@@ -17,16 +17,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore;
-using MeshCore.Network;
-using MeshCore.Network.SecureChannel;
+using Mesh_Core;
+using Mesh_Core.Network;
+using Mesh_Core.Network.SecureChannel;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
 
-namespace MeshApp
+namespace Mesh_App
 {
     public partial class frmViewUserDetails : Form
     {

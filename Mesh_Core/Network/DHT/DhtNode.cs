@@ -48,7 +48,7 @@ using TechnitiumLibrary.Net;
  * 2. http://www.bittorrent.org/beps/bep_0005.html
 */
 
-namespace MeshCore.Network.DHT
+namespace Mesh_Core.Network.DHT
 {
     class DhtNode : IDisposable
     {

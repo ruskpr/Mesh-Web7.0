@@ -17,14 +17,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore.Message;
-using MeshCore.Network;
+using Mesh_Core.Message;
+using Mesh_Core.Network;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace MeshApp.UserControls
+namespace Mesh_App.UserControls
 {
     public partial class ChatListItem : CustomListViewItem
     {

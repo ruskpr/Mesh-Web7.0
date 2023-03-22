@@ -17,12 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore.Message;
+using Mesh_Core.Message;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace MeshApp.UserControls
+namespace Mesh_App.UserControls
 {
     public partial class ChatMessageInfoItem : CustomListViewItem, IChatMessageItem
     {

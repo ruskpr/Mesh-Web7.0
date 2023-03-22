@@ -32,7 +32,7 @@ using TechnitiumLibrary.Security.Cryptography;
 *  
 */
 
-namespace MeshCore.Network.SecureChannel
+namespace Mesh_Core.Network.SecureChannel
 {
     public class SecureChannelHandshakePacket
     {

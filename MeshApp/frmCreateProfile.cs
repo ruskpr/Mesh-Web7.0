@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore;
+using Mesh_Core;
 using System;
 using System.Net;
 using System.Security.Cryptography;
@@ -25,7 +25,7 @@ using System.Windows.Forms;
 using TechnitiumLibrary.Net.Proxy;
 using TechnitiumLibrary.Security.Cryptography;
 
-namespace MeshApp
+namespace Mesh_App
 {
     public partial class frmCreateProfile : Form
     {

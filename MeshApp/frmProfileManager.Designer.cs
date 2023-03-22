@@ -1,4 +1,4 @@
-﻿namespace MeshApp
+﻿namespace Mesh_App
 {
     partial class frmProfileManager
     {
@@ -218,7 +218,7 @@
             // 
             // mnuAbout
             // 
-            this.mnuAbout.Image = global::MeshApp.Properties.Resources.logo2;
+            this.mnuAbout.Image = global::Mesh_App.Properties.Resources.logo2;
             this.mnuAbout.Name = "mnuAbout";
             this.mnuAbout.Size = new System.Drawing.Size(168, 22);
             this.mnuAbout.Text = "&About Mesh";

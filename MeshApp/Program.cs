@@ -27,7 +27,7 @@ using System.Threading;
 using System.Windows.Forms;
 using TechnitiumLibrary.Net.Firewall;
 
-namespace MeshApp
+namespace Mesh_App
 {
     static class Program
     {

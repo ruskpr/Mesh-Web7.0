@@ -17,12 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshApp.UserControls;
-using MeshCore.Message;
-using MeshCore.Network;
+using Mesh_App.UserControls;
+using Mesh_Core.Message;
+using Mesh_Core.Network;
 using System.Windows.Forms;
 
-namespace MeshApp
+namespace Mesh_App
 {
     public partial class frmMessageInfo : Form
     {

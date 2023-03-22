@@ -91,7 +91,7 @@ FEATURES-
    
 */
 
-namespace MeshCore.Network.SecureChannel
+namespace Mesh_Core.Network.SecureChannel
 {
     [Flags]
     public enum SecureChannelCipherSuite : byte

@@ -28,7 +28,7 @@ using TechnitiumLibrary.IO;
 using TechnitiumLibrary.Net;
 using TechnitiumLibrary.Net.Proxy;
 
-namespace MeshCore.Network.DHT
+namespace Mesh_Core.Network.DHT
 {
     public enum DhtNetworkType
     {

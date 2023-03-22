@@ -1,4 +1,4 @@
-﻿namespace MeshApp.UserControls
+﻿namespace Mesh_App.UserControls
 {
     partial class MeshNetworkPanel
     {
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.meshPanelSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.lstUsers = new MeshApp.UserControls.CustomListViewPanel();
+            this.lstUsers = new Mesh_App.UserControls.CustomListViewPanel();
             this.mnuUserList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuViewUserProfile = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.meshPanelSplitContainer)).BeginInit();

@@ -31,7 +31,7 @@ using TechnitiumLibrary.IO;
 *  
 */
 
-namespace MeshCore.Network
+namespace Mesh_Core.Network
 {
     public enum MeshNetworkPacketType : byte
     {

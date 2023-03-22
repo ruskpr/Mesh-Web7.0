@@ -22,7 +22,7 @@ using System.IO;
 using System.Net;
 using TechnitiumLibrary.IO;
 
-namespace MeshCore.Network.SecureChannel
+namespace Mesh_Core.Network.SecureChannel
 {
     public enum SecureChannelCode : byte
     {

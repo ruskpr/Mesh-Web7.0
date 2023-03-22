@@ -1,4 +1,4 @@
-﻿namespace MeshApp
+﻿namespace Mesh_App
 {
     partial class frmViewGroup
     {
@@ -88,7 +88,7 @@
             // picIcon
             // 
             this.picIcon.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picIcon.Image = global::MeshApp.Properties.Resources.change_photo;
+            this.picIcon.Image = global::Mesh_App.Properties.Resources.change_photo;
             this.picIcon.Location = new System.Drawing.Point(14, 36);
             this.picIcon.Name = "picIcon";
             this.picIcon.Size = new System.Drawing.Size(256, 256);

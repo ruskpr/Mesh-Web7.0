@@ -33,7 +33,7 @@ using System.Threading;
 using TechnitiumLibrary.IO;
 using TechnitiumLibrary.Net;
 
-namespace MeshCore.Network.Connections
+namespace Mesh_Core.Network.Connections
 {
     enum ConnectionSignal : byte
     {

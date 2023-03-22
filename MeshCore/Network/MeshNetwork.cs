@@ -17,10 +17,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore.Message;
-using MeshCore.Network.Connections;
-using MeshCore.Network.DHT;
-using MeshCore.Network.SecureChannel;
+using Mesh_Core.Message;
+using Mesh_Core.Network.Connections;
+using Mesh_Core.Network.DHT;
+using Mesh_Core.Network.SecureChannel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,7 +34,7 @@ using TechnitiumLibrary.IO;
 using TechnitiumLibrary.Net;
 using TechnitiumLibrary.Security.Cryptography;
 
-namespace MeshCore.Network
+namespace Mesh_Core.Network
 {
     internal delegate void NetworkChanged(MeshNetwork network, BinaryNumber newNetworkId);
 

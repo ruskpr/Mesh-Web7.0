@@ -21,7 +21,7 @@ using System;
 using System.IO;
 using TechnitiumLibrary.IO;
 
-namespace MeshCore.Message
+namespace Mesh_Core.Message
 {
     public enum MessageRecipientStatus : byte
     {

@@ -17,12 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore.Network;
+using Mesh_Core.Network;
 using System;
 using System.IO;
 using TechnitiumLibrary.IO;
 
-namespace MeshCore.Message
+namespace Mesh_Core.Message
 {
     public enum MessageType : byte
     {

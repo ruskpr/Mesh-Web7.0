@@ -1,4 +1,4 @@
-﻿namespace MeshApp
+﻿namespace Mesh_App
 {
     partial class frmViewUserDetails
     {
@@ -203,7 +203,7 @@
             // picNetwork
             // 
             this.picNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picNetwork.Image = global::MeshApp.Properties.Resources.NoNetwork;
+            this.picNetwork.Image = global::Mesh_App.Properties.Resources.NoNetwork;
             this.picNetwork.Location = new System.Drawing.Point(110, 66);
             this.picNetwork.Name = "picNetwork";
             this.picNetwork.Size = new System.Drawing.Size(24, 24);

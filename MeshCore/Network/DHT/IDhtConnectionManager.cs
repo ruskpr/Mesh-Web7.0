@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System.IO;
 using System.Net;
 
-namespace MeshCore.Network.DHT
+namespace Mesh_Core.Network.DHT
 {
     public interface IDhtConnectionManager
     {

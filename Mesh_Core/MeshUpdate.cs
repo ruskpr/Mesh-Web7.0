@@ -26,7 +26,7 @@ using TechnitiumLibrary.IO;
 using TechnitiumLibrary.Net;
 using TechnitiumLibrary.Net.Proxy;
 
-namespace MeshCore
+namespace Mesh_Core
 {
     public delegate void UpdateCheckFailed(MeshUpdate sender, Exception ex);
 

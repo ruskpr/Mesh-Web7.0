@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore.Network.DHT;
+using Mesh_Core.Network.DHT;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,7 +31,7 @@ using TechnitiumLibrary.Net.Proxy;
 using TechnitiumLibrary.Net.Tor;
 using TechnitiumLibrary.Net.UPnP.Networking;
 
-namespace MeshCore.Network.Connections
+namespace Mesh_Core.Network.Connections
 {
     public enum InternetConnectivityStatus
     {

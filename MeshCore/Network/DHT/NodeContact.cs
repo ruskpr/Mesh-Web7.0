@@ -24,7 +24,7 @@ using System.Security.Cryptography;
 using TechnitiumLibrary.IO;
 using TechnitiumLibrary.Net;
 
-namespace MeshCore.Network.DHT
+namespace Mesh_Core.Network.DHT
 {
     class NodeContact
     {

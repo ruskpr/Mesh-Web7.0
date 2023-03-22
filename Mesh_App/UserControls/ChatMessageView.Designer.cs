@@ -1,4 +1,4 @@
-﻿namespace MeshApp.UserControls
+﻿namespace Mesh_App.UserControls
 {
     partial class ChatMessageView
     {
@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.labTypingNotification = new System.Windows.Forms.Label();
-            this.customListView1 = new MeshApp.UserControls.CustomListView();
+            this.customListView1 = new Mesh_App.UserControls.CustomListView();
             this.btnShareFile = new System.Windows.Forms.Button();
             this.btnSend = new System.Windows.Forms.Button();
             this.txtMessage = new System.Windows.Forms.TextBox();
@@ -113,7 +113,7 @@
             this.btnShareFile.BackColor = System.Drawing.Color.Transparent;
             this.btnShareFile.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnShareFile.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnShareFile.Image = global::MeshApp.Properties.Resources.Attachment;
+            this.btnShareFile.Image = global::Mesh_App.Properties.Resources.Attachment;
             this.btnShareFile.Location = new System.Drawing.Point(635, 26);
             this.btnShareFile.Name = "btnShareFile";
             this.btnShareFile.Size = new System.Drawing.Size(60, 24);
@@ -129,7 +129,7 @@
             this.btnSend.BackColor = System.Drawing.Color.Transparent;
             this.btnSend.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSend.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnSend.Image = global::MeshApp.Properties.Resources.send_message;
+            this.btnSend.Image = global::Mesh_App.Properties.Resources.send_message;
             this.btnSend.Location = new System.Drawing.Point(635, 2);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(60, 24);

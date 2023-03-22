@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MeshApp.Properties {
+namespace Mesh_App.Properties {
     using System;
     
     

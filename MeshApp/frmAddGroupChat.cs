@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Windows.Forms;
 
-namespace MeshApp
+namespace Mesh_App
 {
     public partial class frmAddGroupChat : Form
     {

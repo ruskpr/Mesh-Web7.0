@@ -1,4 +1,4 @@
-﻿namespace MeshApp.UserControls
+﻿namespace Mesh_App.UserControls
 {
     partial class CustomListViewPanel
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.customListView1 = new MeshApp.UserControls.CustomListView();
+            this.customListView1 = new Mesh_App.UserControls.CustomListView();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 

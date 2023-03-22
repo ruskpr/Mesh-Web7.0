@@ -21,7 +21,7 @@ using System;
 using System.Windows.Forms;
 using TechnitiumLibrary.IO;
 
-namespace MeshApp
+namespace Mesh_App
 {
     public partial class frmAddPrivateChat : Form
     {

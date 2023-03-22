@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeshCore.DIDComm
+namespace Mesh_Core.DIDComm
 {
     public class DIDCommMessage
     {

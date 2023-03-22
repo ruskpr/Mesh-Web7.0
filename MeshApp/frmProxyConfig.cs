@@ -22,7 +22,7 @@ using System.Net;
 using System.Windows.Forms;
 using TechnitiumLibrary.Net.Proxy;
 
-namespace MeshApp
+namespace Mesh_App
 {
     public partial class frmProxyConfig : Form
     {

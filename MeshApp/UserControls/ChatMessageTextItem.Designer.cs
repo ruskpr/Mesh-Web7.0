@@ -1,4 +1,4 @@
-﻿namespace MeshApp.UserControls
+﻿namespace Mesh_App.UserControls
 {
     partial class ChatMessageTextItem
     {
@@ -136,7 +136,7 @@
             // 
             this.picDeliveryStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.picDeliveryStatus.BackColor = System.Drawing.Color.Transparent;
-            this.picDeliveryStatus.Image = global::MeshApp.Properties.Resources.waiting;
+            this.picDeliveryStatus.Image = global::Mesh_App.Properties.Resources.waiting;
             this.picDeliveryStatus.Location = new System.Drawing.Point(380, 40);
             this.picDeliveryStatus.Name = "picDeliveryStatus";
             this.picDeliveryStatus.Size = new System.Drawing.Size(16, 16);
@@ -149,7 +149,7 @@
             this.picPointLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.picPointLeft.BackColor = System.Drawing.Color.Transparent;
             this.picPointLeft.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.picPointLeft.Image = global::MeshApp.Properties.Resources.point_left;
+            this.picPointLeft.Image = global::Mesh_App.Properties.Resources.point_left;
             this.picPointLeft.Location = new System.Drawing.Point(4, 42);
             this.picPointLeft.Name = "picPointLeft";
             this.picPointLeft.Size = new System.Drawing.Size(16, 16);
@@ -162,7 +162,7 @@
             this.picPointRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.picPointRight.BackColor = System.Drawing.Color.Transparent;
             this.picPointRight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.picPointRight.Image = global::MeshApp.Properties.Resources.point_right;
+            this.picPointRight.Image = global::Mesh_App.Properties.Resources.point_right;
             this.picPointRight.Location = new System.Drawing.Point(580, 42);
             this.picPointRight.Name = "picPointRight";
             this.picPointRight.Size = new System.Drawing.Size(16, 16);

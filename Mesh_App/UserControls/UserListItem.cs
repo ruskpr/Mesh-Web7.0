@@ -17,12 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore.Network;
+using Mesh_Core.Network;
 using System;
 using System.Drawing;
 using System.IO;
 
-namespace MeshApp.UserControls
+namespace Mesh_App.UserControls
 {
     public partial class UserListItem : CustomListViewItem
     {

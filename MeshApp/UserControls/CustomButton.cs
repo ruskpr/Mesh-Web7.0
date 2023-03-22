@@ -23,7 +23,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MeshApp.UserControls
+namespace Mesh_App.UserControls
 {
     public class CustomButton : PictureBox
     {

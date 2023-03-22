@@ -1,5 +1,5 @@
-﻿using MeshApp.UserControls;
-namespace MeshApp
+﻿using Mesh_App.UserControls;
+namespace Mesh_App
 {
     partial class frmMain
     {
@@ -45,13 +45,13 @@ namespace MeshApp
             this.mnuAddGroupChat2 = new System.Windows.Forms.ToolStripMenuItem();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnPlusButton = new MeshApp.UserControls.CustomButton();
+            this.btnPlusButton = new Mesh_App.UserControls.CustomButton();
             this.lblProfileDisplayName = new System.Windows.Forms.Label();
-            this.lstChats = new MeshApp.UserControls.CustomListView();
+            this.lstChats = new Mesh_App.UserControls.CustomListView();
             this.panelGetStarted = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnCreateChat = new MeshApp.UserControls.CustomButton();
+            this.btnCreateChat = new Mesh_App.UserControls.CustomButton();
             this.mnuAddGroupChat1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuProfileSettings = new System.Windows.Forms.ToolStripMenuItem();
@@ -390,7 +390,7 @@ namespace MeshApp
             // 
             // mnuAboutMesh
             // 
-            this.mnuAboutMesh.Image = global::MeshApp.Properties.Resources.logo2;
+            this.mnuAboutMesh.Image = global::Mesh_App.Properties.Resources.logo2;
             this.mnuAboutMesh.Name = "mnuAboutMesh";
             this.mnuAboutMesh.Size = new System.Drawing.Size(180, 22);
             this.mnuAboutMesh.Text = "&About Mesh";
@@ -475,8 +475,8 @@ namespace MeshApp
         private System.Windows.Forms.ToolStripMenuItem mnuProperties;
         private System.Windows.Forms.SplitContainer mainContainer;
         private System.Windows.Forms.Label lblProfileDisplayName;
-        private MeshApp.UserControls.CustomListView lstChats;
-        private MeshApp.UserControls.CustomButton btnCreateChat;
+        private Mesh_App.UserControls.CustomListView lstChats;
+        private Mesh_App.UserControls.CustomButton btnCreateChat;
         private System.Windows.Forms.Panel panelGetStarted;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;

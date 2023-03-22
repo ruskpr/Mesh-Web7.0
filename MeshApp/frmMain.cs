@@ -17,11 +17,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshApp.UserControls;
-using MeshCore;
-using MeshCore.Message;
-using MeshCore.Network;
-using MeshCore.Network.Connections;
+using Mesh_App.UserControls;
+using Mesh_Core;
+using Mesh_Core.Message;
+using Mesh_Core.Network;
+using Mesh_Core.Network.Connections;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -31,7 +31,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using TechnitiumLibrary.IO;
 
-namespace MeshApp
+namespace Mesh_App
 {
     public partial class frmMain : Form, IDebug
     {
@@ -1011,7 +1011,7 @@ namespace MeshApp
                 _debugWriter = new StreamWriter(_debugFile);
                 _debugWriter.AutoFlush = true;
 
-                MeshCore.Debug.SetDebug(this);
+                Mesh_Core.Debug.SetDebug(this);
 
                 this.Text += " [Debugging]";
             }

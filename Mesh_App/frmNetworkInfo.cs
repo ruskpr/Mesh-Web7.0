@@ -17,14 +17,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using MeshCore;
-using MeshCore.Network.Connections;
+using Mesh_Core;
+using Mesh_Core.Network.Connections;
 using System;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MeshApp
+namespace Mesh_App
 {
     public partial class frmNetworkInfo : Form
     {
