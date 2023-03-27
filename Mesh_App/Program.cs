@@ -17,14 +17,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using System;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Threading;
-using System.Windows.Forms;
 using TechnitiumLibrary.Net.Firewall;
 
 namespace Mesh_App
@@ -53,9 +49,9 @@ namespace Mesh_App
             if (Process.GetProcessesByName("DIDCOMMAgent").Length == 0)
             {
                 ProcessStartInfo startinfo = new ProcessStartInfo();
-                startinfo.FileName = "DIDCOMMAgent.exe";
+                startinfo.FileName = $"DIDCOMMAgent.exe";
+                startinfo.Arguments = $"-p {AppSettings.AgentPort}";
                 startinfo.UseShellExecute = true;
-                //startinfo.CreateNoWindow = true;
                 AgentProcess = Process.Start(startinfo);
             }
 
