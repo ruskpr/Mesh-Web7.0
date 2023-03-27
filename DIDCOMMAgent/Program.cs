@@ -8,14 +8,6 @@ namespace DIDCOMMAgent
     {
         #region properties
 
-        public static int Port 
-        { 
-            get
-            {
-                return Convert.ToInt32(ConfigurationManager.AppSettings["port"]);
-            }
-        }
-
         #endregion
 
         #region fields
@@ -42,12 +34,16 @@ namespace DIDCOMMAgent
         #region main
         
 
-        public static void Main()
+        public static void Main(string[] args)
         {
             //init alice and bob
             //Subject alice = new Subject("alice");
             //Subject bob = new Subject("bob");
-            Trinity.TrinityConfig.HttpPort = 8081;
+
+
+            int? port = HandlePortArgs(args);
+
+            Trinity.TrinityConfig.HttpPort = port ?? 8081;
 
             DIDCOMMAgent didAgent = new DIDCOMMAgent();
             didAgent.Start();
@@ -60,6 +56,24 @@ namespace DIDCOMMAgent
         }
 
         #endregion
+
+        private static int? HandlePortArgs(string[] args)
+        {
+            if (args.Length > 0 && args[0] == "-p")
+            {
+                if (args.Length > 1)
+                {
+                    int port;
+                    if (int.TryParse(args[1], out port))
+                    {
+                        if (port != 0) return port;
+                    }
+                }
+                
+            }
+
+            return null;
+        }
 
     }
 }
