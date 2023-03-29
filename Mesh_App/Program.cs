@@ -25,7 +25,7 @@ using TechnitiumLibrary.Net.Firewall;
 
 namespace Mesh_App
 {
-    static class Program
+    internal static class Program
     {
         #region variables
 
@@ -45,16 +45,6 @@ namespace Mesh_App
         [STAThread]
         public static void Main(string[] args)
         {
-            // start didcomm agent
-            if (Process.GetProcessesByName("DIDCOMMAgent").Length == 0)
-            {
-                ProcessStartInfo startinfo = new ProcessStartInfo();
-                startinfo.FileName = $"DIDCOMMAgent.exe";
-                startinfo.Arguments = $"-p {AppSettings.AgentPort}";
-                startinfo.UseShellExecute = true;
-                AgentProcess = Process.Start(startinfo);
-            }
-
             try
             {
 
@@ -107,7 +97,7 @@ namespace Mesh_App
 
                 #endregion
 
-                Application.Run(new frmProfileManager(Path.Combine(Path.GetDirectoryName(appPath), "tor", "tor.exe")));
+                Application.Run(new frmProfileManager_DID(Path.Combine(Path.GetDirectoryName(appPath), "tor", "tor.exe")));
             }
             catch (Exception ex)
             {

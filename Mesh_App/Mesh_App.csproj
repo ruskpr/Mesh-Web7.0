@@ -50,6 +50,9 @@
     <Compile Update="frmChatProperties.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="frmCreateProfile _DID.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="frmCreateProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +75,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="frmNetworkInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmProfileManager_DID.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="frmProfileManager.cs">

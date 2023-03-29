@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DIDCOMMAgent\DIDCOMMAgent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="TechnitiumLibrary.IO">
       <HintPath>..\TechnitiumLibrary\TechnitiumLibrary.IO.dll</HintPath>
     </Reference>

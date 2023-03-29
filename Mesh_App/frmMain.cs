@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using Mesh_App.UserControls;
 using Mesh_Core;
+using Mesh_Core.DIDComm;
 using Mesh_Core.Message;
 using Mesh_Core.Network;
 using Mesh_Core.Network.Connections;
@@ -42,6 +43,7 @@ namespace Mesh_App
         readonly bool _isPortableApp;
         readonly MeshUpdate _meshUpdate;
         readonly frmProfileManager _profileManager;
+        readonly frmProfileManager_DID _profileManager_DID;
 
         readonly SoundPlayer _sndMessageNotification = new SoundPlayer(Properties.Resources.MessageNotification);
 
@@ -49,6 +51,8 @@ namespace Mesh_App
         System.Windows.Forms.Timer _networkStatusCheckTimer;
 
         bool _upnpNoticeShown = false;
+
+        public DIDUser DIDUser { get; set; }
 
         #endregion
 
@@ -63,6 +67,27 @@ namespace Mesh_App
             _isPortableApp = isPortableApp;
             //_meshUpdate = meshUpdate;
             _profileManager = profileManager;
+
+            _node.InvitationReceived += MeshNode_InvitationReceived;
+
+            if (_node.Type == MeshNodeType.Anonymous)
+                this.Text += " [Anonymous]";
+
+            //_meshUpdate.UpdateAvailable += meshUpdate_UpdateAvailable;
+            //_meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
+            //_meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
+        }
+
+        public frmMain(DIDUser didUser, bool isPortableApp, frmProfileManager_DID profileManager)
+        {
+            InitializeComponent();
+
+            DIDUser = didUser;
+            //_node = node;
+            //_profileFilePath = profileFilePath;
+            _isPortableApp = isPortableApp;
+            //_meshUpdate = meshUpdate;
+            _profileManager_DID = profileManager;
 
             _node.InvitationReceived += MeshNode_InvitationReceived;
 
