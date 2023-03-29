@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using Mesh_Core;
 using Mesh_Core.DIDComm;
 using Mesh_Core.Network.SecureChannel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,11 +44,10 @@ namespace Mesh_App
 
         bool _createProfileWindowShown;
 
-        DIDUser _user;
+        DIDUser _selectedUser;
 
         #endregion
 
-        List<DIDUser> _users = new List<DIDUser>();
 
         #region constructor
 
@@ -95,36 +95,28 @@ namespace Mesh_App
                 profiles = Directory.GetFiles(_profileFolder, "*.profile", SearchOption.TopDirectoryOnly);
             }
 
-            cmbProfiles.Items.Clear();
+            cmbProfiles.Items.Clear();            
 
+
+            List<DIDUser> didUsers = new List<DIDUser>();
             foreach (string profile in profiles)
             {
-                
-
                 if (profile.EndsWith(".profile"))
                 {
-                    string profileName = Path.GetFileNameWithoutExtension(profile);
-                    if (!string.IsNullOrWhiteSpace(profileName))
-                    {
-                        bool profileRunning = false;
-
-                        foreach (KeyValuePair<string, frmMain> frm in _runningProfiles)
-                        {
-                            if (frm.Key.Equals(profileName, StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                profileRunning = true;
-                                break;
-                            }
-                        }
-
-                        if (!profileRunning)
-                            cmbProfiles.Items.Add(profileName);
-                    }
+                    var json = File.ReadAllText(profile);
+                    didUsers.Add(JsonConvert.DeserializeObject<DIDUser>(json));   
+                    //bool profileRunning = false;                    
                 }
             }
 
+            
+
             if (cmbProfiles.Items.Count > 0)
+            {
+                cmbProfiles.DataSource = didUsers;
+                cmbProfiles.DisplayMember = "Name";
                 cmbProfiles.SelectedIndex = 0;
+            }
         }
 
         private string GetDownloadFolder()
@@ -143,7 +135,7 @@ namespace Mesh_App
             }
         }
 
-        private void CreateAndStartProfile()
+        private void CreateProfileDialog()
         {
             if (_createProfileWindowShown)
                 return;
@@ -158,16 +150,15 @@ namespace Mesh_App
                 {
                     int localServicePort;
 
-                    if (frm.NodeType == MeshNodeType.P2P)
-                        localServicePort = (new Random()).Next(10000, 65000); //fixed random port for p2p
-                    else
-                        localServicePort = 0; //new random port at startup for Tor node
+                    //if (frm.NodeType == MeshNodeType.P2P)
+                    //    localServicePort = (new Random()).Next(10000, 65000); //fixed random port for p2p
+                    //else
+                    //    localServicePort = 0; //new random port at startup for Tor node
 
                     string profileFilePath = Path.Combine(_profileFolder, frm.ProfileDisplayName + ".profile");
 
 
-
-                    LoadProfileMainForm(frm.ProfileDisplayName, profileFilePath);
+                    //LoadProfileMainForm(_selectedUser, profileFilePath);
                 }
                 else
                 {
@@ -180,20 +171,21 @@ namespace Mesh_App
             }
 
             _createProfileWindowShown = false;
+            RefreshProfileList();
         }
 
-        private void LoadProfileMainForm(string profileName, string profileFilePath)
+        private void StartMainForm(DIDUser selectedUser, string profileFilePath)
         {
-            if (_user == null)
+            if (_selectedUser == null)
             {
                 MessageBox.Show("Select a valid user");
                 return;
             }
 
-            frmMain frmMain = new frmMain(_user, _isPortableApp, this);
-            _runningProfiles.Add(profileName, frmMain);
+            frmMain frmMain = new frmMain(_selectedUser, _isPortableApp, this);
+            //_runningProfiles.Add(profileName, frmMain);
 
-            ToolStripMenuItem mnuItem = new ToolStripMenuItem(profileName);
+            ToolStripMenuItem mnuItem = new ToolStripMenuItem(selectedUser.Name);
             mnuItem.Click += mnuProfileMainForm_Click;
 
             mnuSystemTray.Items.Insert(2, mnuItem);
@@ -210,7 +202,7 @@ namespace Mesh_App
         {
             string profileName = Path.GetFileNameWithoutExtension(frm.ProfileFilePath);
 
-            _runningProfiles.Remove(profileName);
+            //_runningProfiles.Remove(profileName);
 
             ToolStripItem mnuProfile = null;
 
@@ -250,7 +242,7 @@ namespace Mesh_App
         {
             try
             {
-                CreateAndStartProfile();
+                CreateProfileDialog();
             }
             catch (Exception ex)
             {
@@ -271,7 +263,7 @@ namespace Mesh_App
                     if (_isPortableApp || !Directory.Exists(node.DownloadFolder))
                         node.DownloadFolder = GetDownloadFolder();
 
-                    LoadProfileMainForm((cmbProfiles.SelectedItem as string), node, profileFilePath);
+                    StartMainForm((DIDUser)cmbProfiles.SelectedItem, profileFilePath);
                 }
             }
             catch (Exception ex)
@@ -463,7 +455,7 @@ namespace Mesh_App
                 btnDelete.Enabled = false;
                 btnExport.Enabled = false;
 
-                CreateAndStartProfile();
+                CreateProfileDialog();
             }
             else
             {

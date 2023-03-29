@@ -153,9 +153,6 @@ namespace Mesh_App
         public string ProfileDisplayName
         { get { return txtProfileDisplayName.Text.Trim(); } }
 
-        public MeshNodeType NodeType
-        { get { return (MeshNodeType)cmbType.SelectedIndex + 1; } }
-
         public string ProfilePassword
         { get { return txtProfilePassword.Text; } }
 

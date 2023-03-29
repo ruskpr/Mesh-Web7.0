@@ -9,7 +9,6 @@ namespace Mesh_Core.DIDComm
 {
     public class DIDUser : ISubject
     {
-        public string Password { get; set; }
 
         public DIDUser(string keyPath)
         {
@@ -20,8 +19,10 @@ namespace Mesh_Core.DIDComm
         {
         }
 
-        #region interface properties
+        #region properties
         public string Name { get; set; }
+        public string Password { get; set; }
+
         public DIDKey DIDKey { get; set; }
         public JsonWebKey MsgPublicKey { get; set; }
         public JsonWebKey MsgSecretKey { get; set; }
@@ -69,9 +70,18 @@ namespace Mesh_Core.DIDComm
 
             DIDKey key = new DIDKey(user.Name, profileFolder);
             key.InitKey();
+            user.DIDKey = key;
+            user.MsgPublicKey = user.DIDKey.PublicKey;
+            user.MsgSecretKey = user.DIDKey.SecretKey;
+            user.ProofPublicKey = user.DIDKey.ProofKey.Pk;
+            user.ProofSecretKey = user.DIDKey.ProofKey.Sk;
 
             //set subject's public and secret keys
             user.DIDKey = key;
+
+            // jsonconvert user to profile folder
+            var userAsJson = JsonConvert.SerializeObject(user);
+            File.WriteAllText(Path.Combine(profileFolder, $"{user.Name}.profile"), userAsJson);
         }
 
     }

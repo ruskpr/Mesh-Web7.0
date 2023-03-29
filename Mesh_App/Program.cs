@@ -97,7 +97,7 @@ namespace Mesh_App
 
                 #endregion
 
-                Application.Run(new frmProfileManager_DID(Path.Combine(Path.GetDirectoryName(appPath), "tor", "tor.exe")));
+                Application.Run(new frmProfileManager_DID(Path.Combine(Path.GetDirectoryName(appPath), "DIDCOMMAgent.exe")));
             }
             catch (Exception ex)
             {

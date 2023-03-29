@@ -19,7 +19,7 @@ namespace DIDCOMMAgent
 
         #region fields
 
-        private Subject _subject;
+        //private Subject _subject;
         private string _subjectKeyPath;
         private bool _isInitialized = false;
         public JsonWebKey SecretKey;
@@ -32,7 +32,7 @@ namespace DIDCOMMAgent
 
         public DIDKey(Subject subject)
         {
-            _subject = subject;
+            //_subject = subject;
 
            
         }
@@ -40,7 +40,7 @@ namespace DIDCOMMAgent
         public DIDKey(string subjectName, string path)
         {
             // temporary key store
-            _subjectKeyPath = Path.Combine("path", subjectName + ".profile");
+            _subjectKeyPath = Path.Combine(path, subjectName + ".profile");
         }
 
         #endregion
@@ -56,18 +56,20 @@ namespace DIDCOMMAgent
 
             JsonWebKey didWebKey;
 
-            if (!File.Exists(_subjectKeyPath))
-            {
-                GenerateKeyResponse didKey = Okapi.Keys.DIDKey.Generate(new GenerateKeyRequest { KeyType = KeyType.X25519 });
-                didWebKey = didKey.Key[0];
-                string didKeyJson = JsonSerializer.Serialize(didWebKey);
-                File.WriteAllText(_subjectKeyPath, didKeyJson);
-            }
-            else
-            {
-                string didKeyJson = File.ReadAllText(_subjectKeyPath);
-                didWebKey = JsonSerializer.Deserialize<JsonWebKey>(didKeyJson);
-            }
+            //if (!File.Exists(_subjectKeyPath))
+            //{
+               
+            //}
+            //else
+            //{
+            //    string didKeyJson = File.ReadAllText(_subjectKeyPath);
+            //    didWebKey = JsonSerializer.Deserialize<JsonWebKey>(didKeyJson);
+            //}
+
+            GenerateKeyResponse didKey = Okapi.Keys.DIDKey.Generate(new GenerateKeyRequest { KeyType = KeyType.X25519 });
+            didWebKey = didKey.Key[0];
+            string didKeyJson = JsonSerializer.Serialize(didWebKey);
+            //File.WriteAllText(_subjectKeyPath, didKeyJson);
 
             // set secret key
             SecretKey = new JsonWebKey()
