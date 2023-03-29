@@ -59,7 +59,7 @@ namespace Mesh_App
 
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void btnCreate_Click(object sender, EventArgs e)
         {
             #region validate form
 

@@ -163,7 +163,7 @@
             btnCreate.TabIndex = 48;
             btnCreate.Text = "&Create";
             btnCreate.UseVisualStyleBackColor = true;
-            btnCreate.Click += btnStart_Click;
+            btnCreate.Click += btnCreate_Click;
             // 
             // label3
             // 

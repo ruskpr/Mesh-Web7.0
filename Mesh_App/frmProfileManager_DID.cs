@@ -163,21 +163,7 @@ namespace Mesh_App
                     else
                         localServicePort = 0; //new random port at startup for Tor node
 
-                    //MeshNode node = new MeshNode(frm.NodeType, frm.PrivateKey, SecureChannelCipherSuite.ECDHE256_RSA2048_WITH_AES256_CBC_HMAC_SHA256 | SecureChannelCipherSuite.DHE2048_RSA2048_WITH_AES256_CBC_HMAC_SHA256, Convert.ToUInt16(localServicePort), frm.ProfileDisplayName, _profileFolder, GetDownloadFolder(), null);
-
-                    //if (frm.NodeType == MeshNodeType.P2P)
-                    //{
-                    //    //create default local network group for LAN user discovery
-                    //    node.CreateGroupChat("Local Network", "", true);
-                    //}
-
                     string profileFilePath = Path.Combine(_profileFolder, frm.ProfileDisplayName + ".profile");
-
-                    //using (FileStream fS = new FileStream(profileFilePath, FileMode.Create, FileAccess.ReadWrite))
-                    //{
-                    //    node.ChangePassword(frm.ProfilePassword);
-                    //    node.SaveTo(fS);
-                    //}
 
 
 
