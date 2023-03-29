@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DIDCOMMAgent
 {
-    public class Subject
+    public class Subject : ISubject
     {
         #region static
         // key is subjects Key ID

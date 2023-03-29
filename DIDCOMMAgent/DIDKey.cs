@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
-using Okapi.Keys;
-using Okapi.Keys.V1;
+﻿using System.IO;
 using System.Text.Json;
+using Okapi.Keys.V1;
 using Okapi.Security;
 using Okapi.Security.V1;
 
@@ -14,7 +12,7 @@ namespace DIDCOMMAgent
         #region props
 
         public CreateOberonKeyResponse ProofKey { get; set; }
-        public string KeyFilePath { get => _keyFilePath; }
+        public string KeyFilePath { get => _subjectKeyPath; }
         public bool IsInitialized { get => _isInitialized; }
 
         #endregion
@@ -22,7 +20,7 @@ namespace DIDCOMMAgent
         #region fields
 
         private Subject _subject;
-        private string _keyFilePath;
+        private string _subjectKeyPath;
         private bool _isInitialized = false;
         public JsonWebKey SecretKey;
         public JsonWebKey PublicKey = new JsonWebKey();
@@ -36,8 +34,13 @@ namespace DIDCOMMAgent
         {
             _subject = subject;
 
+           
+        }
+
+        public DIDKey(string subjectName, string path)
+        {
             // temporary key store
-            _keyFilePath = $"e:\\didcomm\\keys\\{_subject.Name.ToLower()}.keyfile.json";
+            _subjectKeyPath = Path.Combine("path", subjectName + ".profile");
         }
 
         #endregion
@@ -46,22 +49,23 @@ namespace DIDCOMMAgent
 
         public void InitKey()
         {
+            //if (File.Exists(_subjectKeyPath)) return;
 
-            if (_isInitialized) return;
-            _isInitialized = true;
+            //if (_isInitialized) return;
+            //_isInitialized = true;
 
             JsonWebKey didWebKey;
 
-            if (!File.Exists(_keyFilePath))
+            if (!File.Exists(_subjectKeyPath))
             {
                 GenerateKeyResponse didKey = Okapi.Keys.DIDKey.Generate(new GenerateKeyRequest { KeyType = KeyType.X25519 });
                 didWebKey = didKey.Key[0];
                 string didKeyJson = JsonSerializer.Serialize(didWebKey);
-                File.WriteAllText(_keyFilePath, didKeyJson);
+                File.WriteAllText(_subjectKeyPath, didKeyJson);
             }
             else
             {
-                string didKeyJson = File.ReadAllText(_keyFilePath);
+                string didKeyJson = File.ReadAllText(_subjectKeyPath);
                 didWebKey = JsonSerializer.Deserialize<JsonWebKey>(didKeyJson);
             }
 

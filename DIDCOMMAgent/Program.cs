@@ -38,7 +38,7 @@ namespace DIDCOMMAgent
         {
             //init alice and bob
             //Subject alice = new Subject("alice");
-            //Subject bob = new Subject("bob");
+            Subject bob = new Subject("bob");
 
 
             int? port = HandlePortArgs(args);
