@@ -58,38 +58,19 @@ namespace Mesh_App
 
         #region constructor
         // MeshUpdate meshUpdate,
-        public frmMain_DID(MeshNode node, string profileFilePath, bool isPortableApp, frmProfileManager profileManager)
-        {
-            InitializeComponent();
-
-            _node = node;
-            _profileFilePath = profileFilePath;
-            _isPortableApp = isPortableApp;
-            //_meshUpdate = meshUpdate;
-            _profileManager = profileManager;
-
-            _node.InvitationReceived += MeshNode_InvitationReceived;
-
-            if (_node.Type == MeshNodeType.Anonymous)
-                this.Text += " [Anonymous]";
-
-            //_meshUpdate.UpdateAvailable += meshUpdate_UpdateAvailable;
-            //_meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
-            //_meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
-        }
-
-        public frmMain_DID(DIDUser didUser, bool isPortableApp, frmProfileManager_DID profileManager)
+       
+        public frmMain_DID(MeshNode node, DIDUser didUser, bool isPortableApp, frmProfileManager_DID profileManager)
         {
             InitializeComponent();
 
             DIDUser = didUser;
-            //_node = node;
+            _node = node;
             //_profileFilePath = profileFilePath;
             _isPortableApp = isPortableApp;
             //_meshUpdate = meshUpdate;
             _profileManager_DID = profileManager;
 
-            //_node.InvitationReceived += MeshNode_InvitationReceived;
+            _node.InvitationReceived += MeshNode_InvitationReceived;
 
             if (_node.Type == MeshNodeType.Anonymous)
                 this.Text += " [Anonymous]";
@@ -107,7 +88,7 @@ namespace Mesh_App
         private void frmMain_Load(object sender, EventArgs e)
         {
             //load chats and ui views
-            lblProfileDisplayName.Text = _node.ProfileDisplayName;
+            lblProfileDisplayName.Text = DIDUser.Name;
 
             foreach (MeshNetwork network in _node.GetNetworks())
                 AddChatView(network);

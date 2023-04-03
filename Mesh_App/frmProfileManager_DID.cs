@@ -45,6 +45,7 @@ namespace Mesh_App
         bool _createProfileWindowShown;
 
         DIDUser _selectedUser;
+        private MeshNode _meshNode;
 
         #endregion
 
@@ -107,6 +108,7 @@ namespace Mesh_App
                     localDIDUsers.Add(DIDUser.GetUser(json));
                     foreach (DIDUser user in localDIDUsers)
                     {
+                        user.DIDKey.KeyFilePath = profile;
                         cmbProfiles.Items.Add(user);
                     }
                     //bool profileRunning = false;                    
@@ -152,7 +154,15 @@ namespace Mesh_App
 
                 if (frm.ShowDialog(this) == DialogResult.OK)
                 {
-                    //
+                    int localServicePort;
+
+                    localServicePort = (new Random()).Next(10000, 65000); //fixed random port for p2p
+
+                    MeshNode node = new MeshNode(MeshNodeType.P2P, new byte[] {1}, SecureChannelCipherSuite.ECDHE256_RSA2048_WITH_AES256_CBC_HMAC_SHA256 | SecureChannelCipherSuite.DHE2048_RSA2048_WITH_AES256_CBC_HMAC_SHA256, Convert.ToUInt16(localServicePort), frm.ProfileDisplayName, _profileFolder, GetDownloadFolder(), null);
+
+                    node.CreateGroupChat("Local Network", "", true);
+
+                    _meshNode = node;
                 }
                 else
                 {
@@ -167,6 +177,7 @@ namespace Mesh_App
             _createProfileWindowShown = false;
             RefreshProfileList();
         }
+
 
         internal void UnloadProfileMainForm(frmMain_DID frm)
         {
@@ -222,11 +233,19 @@ namespace Mesh_App
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            //string profileFilePath = Path.Combine(_profileFolder, (cmbProfiles.SelectedItem as string) + ".profile.json");
-
             try
             {
                 _selectedUser = (DIDUser)cmbProfiles.SelectedItem;
+
+                int localServicePort = (new Random()).Next(10000, 65000); //fixed random port for p2p
+
+                Stream s = new FileStream(_selectedUser.DIDKey.KeyFilePath, FileMode.Open);
+                MeshNode node = new MeshNode(s, _selectedUser.Password, _selectedUser.DIDKey.KeyFilePath, null);
+
+                node.CreateGroupChat("Local Network", "", true);
+
+                _meshNode = node;
+
 
                 if (_selectedUser == null)
                 {
@@ -234,7 +253,13 @@ namespace Mesh_App
                     return;
                 }
 
-                frmMain_DID frmMain = new frmMain_DID(_selectedUser, _isPortableApp, this);
+                if (txtPassword.Text != _selectedUser.Password)
+                {
+                    MessageBox.Show("Invalid password");
+                    return;
+                }
+
+                frmMain_DID frmMain = new frmMain_DID(_meshNode, _selectedUser, _isPortableApp, this);
                 //_runningProfiles.Add(profileName, frmMain);
 
                 ToolStripMenuItem mnuItem = new ToolStripMenuItem(_selectedUser.Name);

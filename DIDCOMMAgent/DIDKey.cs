@@ -17,7 +17,7 @@ namespace DIDCOMMAgent
         //public CreateOberonKeyResponse ProofKey { get; set; }
         public string ProofKeySk { get; set; } 
         public string ProofKeyPk { get; set; } 
-        public string KeyFilePath { get => _subjectKeyPath; }
+        public string KeyFilePath { get; set; }
         public bool IsInitialized { get => _isInitialized; }
 
         #endregion
@@ -38,13 +38,10 @@ namespace DIDCOMMAgent
         public DIDKey(string subjectName, string path)
         {
             // temporary key store
-            _subjectKeyPath = Path.Combine(path, subjectName + ".profile.json");
+            KeyFilePath = Path.Combine(path, subjectName + ".profile.json");
         }
 
-        public DIDKey()
-        {
-            
-        }
+      
 
         #endregion
 
