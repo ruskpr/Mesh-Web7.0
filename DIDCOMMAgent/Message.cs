@@ -44,7 +44,7 @@ namespace DIDCOMMAgent
 
         }
 
-        private static CoreMessage CreateCoreMessage(string sender, string[] recipients, string msg, long expires = 0)
+        private static CoreMessage CreateCoreMessage(string senderKeyId, string[] recipientkeyIds, string msg, long expires = 0)
         {
             CoreMessage core = new CoreMessage();
 
@@ -58,8 +58,8 @@ namespace DIDCOMMAgent
 
             core.Expires = expires;
 
-            core.From = sender;
-            core.To.Add(recipients);
+            core.From = senderKeyId;
+            core.To.Add(recipientkeyIds);
 
             return core;
         }
@@ -70,22 +70,26 @@ namespace DIDCOMMAgent
         /// Returns a collection of HTTP status codes for each message sent.
         ///
         /// </summary>
-        public static IEnumerable<HttpStatusCode> Send(string endpointUrl, string plaintextMsg, string senderKeyId, string[] recipientKeyIds)
+        public static IEnumerable<HttpStatusCode> Send(string endpointUrl, string plaintextMsg, ISubject sender, List<ISubject> recipients)
         {
             var statusCodes = new List<HttpStatusCode>();
 
-            //1. create a (Okapi) core message
-            var coreMessage = CreateCoreMessage(senderKeyId, recipientKeyIds, plaintextMsg);
+            
+            //1. create a (Okapi) core message 
+
+            // get the recipient keys
+            var recipientKeys = recipients.Select(r => r.DIDKey.KeyId).ToArray();
+            var coreMessage = CreateCoreMessage(sender.DIDKey.KeyId, recipientKeys, plaintextMsg);
 
             // loop through each recipient's key id, encrypt the core message, then send via HTTP to the endpoint url
-            foreach (string recieverKeyId in coreMessage.To.ToList())
+            foreach (var recipient in recipients)
             {
                 // pack the message
                 PackResponse encryptedPackage = DIDComm.Pack(new PackRequest
                 {
                     Plaintext = coreMessage.ToByteString(),
-                    SenderKey = Subject.Subjects[senderKeyId].MsgSecretKey,
-                    ReceiverKey = Subject.Subjects[recieverKeyId].MsgSecretKey,
+                    SenderKey = sender.MsgSecretKey,
+                    ReceiverKey = recipient.MsgSecretKey,
                     Mode = EncryptionMode.Direct
                 });
 
@@ -97,7 +101,8 @@ namespace DIDCOMMAgent
                     emessage.Ciphertext.ToBase64(),
                     emessage.Tag.ToBase64(),
                     recipients64: new List<string>() {
-                        emessage.Recipients[0].ToByteString().ToBase64() });
+                        emessage.Recipients[0].ToByteString().ToBase64() 
+                    });
 
                 // convert DIDCOMM message to json
                 DIDCOMMMessage didcommMsg = new DIDCOMMMessage(em);
@@ -109,14 +114,12 @@ namespace DIDCOMMAgent
                     using (HttpRequestMessage requestMessage = new HttpRequestMessage(new HttpMethod("POST"), endpointUrl))
                     {
                         requestMessage.Headers.TryAddWithoutValidation("Accept", "application/json");
-                        //Console.WriteLine(">>>Payload:" + emJson);
                         requestMessage.Content = new StringContent(emJson);
                         var task = httpClient.SendAsync(requestMessage);
                         task.Wait();
                         HttpResponseMessage result = task.Result;
                         statusCodes.Add(result.StatusCode);
                         string jsonResponse = result.Content.ReadAsStringAsync().Result;
-                        //Console.WriteLine(">>>Response:" + jsonResponse);
                     }
                 }
             }

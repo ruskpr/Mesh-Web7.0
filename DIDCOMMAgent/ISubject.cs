@@ -9,7 +9,7 @@ namespace DIDCOMMAgent
         DIDKey DIDKey { get; }
         JsonWebKey MsgPublicKey { get; set; }
         JsonWebKey MsgSecretKey { get; set; }
-        ByteString ProofPublicKey { get; set; }
-        ByteString ProofSecretKey { get; set; }
+        string ProofPublicKey { get; set; }
+        string ProofSecretKey { get; set; }
     }
 }
