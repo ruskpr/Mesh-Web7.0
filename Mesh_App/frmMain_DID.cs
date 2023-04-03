@@ -59,21 +59,21 @@ namespace Mesh_App
         #region constructor
         // MeshUpdate meshUpdate,
        
-        public frmMain_DID(MeshNode node, DIDUser didUser, bool isPortableApp, frmProfileManager_DID profileManager)
+        public frmMain_DID(DIDUser didUser, bool isPortableApp, frmProfileManager_DID profileManager)
         {
             InitializeComponent();
 
             DIDUser = didUser;
-            _node = node;
+            //_node = node;
             //_profileFilePath = profileFilePath;
             _isPortableApp = isPortableApp;
             //_meshUpdate = meshUpdate;
             _profileManager_DID = profileManager;
 
-            _node.InvitationReceived += MeshNode_InvitationReceived;
+            //_node.InvitationReceived += MeshNode_InvitationReceived;
 
-            if (_node.Type == MeshNodeType.Anonymous)
-                this.Text += " [Anonymous]";
+            //if (_node.Type == MeshNodeType.Anonymous)
+            //    this.Text += " [Anonymous]";
 
             //_meshUpdate.UpdateAvailable += meshUpdate_UpdateAvailable;
             //_meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
@@ -90,25 +90,25 @@ namespace Mesh_App
             //load chats and ui views
             lblProfileDisplayName.Text = DIDUser.Name;
 
-            foreach (MeshNetwork network in _node.GetNetworks())
-                AddChatView(network);
+            //foreach (MeshNetwork network in _node.GetNetworks())
+            //    AddChatView(network);
 
-            lstChats.SelectItem(lstChats.GetFirstItem());
+            //lstChats.SelectItem(lstChats.GetFirstItem());
             ShowSelectedChatView();
 
             //load settings
             bool loadDefaultSettings = true;
 
-            if ((_node.AppData != null) && (_node.AppData.Length > 0))
-            {
-                try
-                {
-                    LoadProfileSettings(_node.AppData);
-                    loadDefaultSettings = false;
-                }
-                catch
-                { }
-            }
+            //if ((_node.AppData != null) && (_node.AppData.Length > 0))
+            //{
+            //    try
+            //    {
+            //        LoadProfileSettings(_node.AppData);
+            //        loadDefaultSettings = false;
+            //    }
+            //    catch
+            //    { }
+            //}
 
             if (loadDefaultSettings)
             {
@@ -124,7 +124,7 @@ namespace Mesh_App
             _networkStatusCheckTimer = new System.Windows.Forms.Timer();
             _networkStatusCheckTimer.Interval = 10000;
             _networkStatusCheckTimer.Tick += networkStatusCheckTimer_Tick;
-            _networkStatusCheckTimer.Start();
+            //_networkStatusCheckTimer.Start();
         }
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e)

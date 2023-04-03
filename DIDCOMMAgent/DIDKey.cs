@@ -41,7 +41,11 @@ namespace DIDCOMMAgent
             KeyFilePath = Path.Combine(path, subjectName + ".profile.json");
         }
 
-      
+        public DIDKey()
+        {
+            
+        }
+
 
         #endregion
 

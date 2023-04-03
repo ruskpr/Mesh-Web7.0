@@ -45,8 +45,8 @@ namespace Mesh_App
         [STAThread]
         public static void Main(string[] args)
         {
-            try
-            {
+            //try
+            //{
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -98,12 +98,12 @@ namespace Mesh_App
                 #endregion
 
                 Application.Run(new frmProfileManager_DID(Path.Combine(Path.GetDirectoryName(appPath), "DIDCOMMAgent.exe")));
-            }
-            catch (Exception ex)
-            {
-                throw;
-                MessageBox.Show("Error! " + ex.ToString() + "\r\n\r\nClick OK to quit the application.", "Error - Mesh App", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw;
+            //    MessageBox.Show("Error! " + ex.ToString() + "\r\n\r\nClick OK to quit the application.", "Error - Mesh App", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         public static bool FirewallEntryExists

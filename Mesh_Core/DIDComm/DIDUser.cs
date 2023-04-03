@@ -30,7 +30,8 @@ namespace Mesh_Core.DIDComm
 
         public static DIDUser GetUser(string keyPath)
         {
-            var user = JsonConvert.DeserializeObject<DIDUser>(keyPath);
+            var json = File.ReadAllText(keyPath);
+            var user = JsonConvert.DeserializeObject<DIDUser>(json);
             return user;
         }
 

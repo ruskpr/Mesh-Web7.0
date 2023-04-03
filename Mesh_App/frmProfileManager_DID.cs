@@ -49,7 +49,6 @@ namespace Mesh_App
 
         #endregion
 
-
         #region constructor
 
         public frmProfileManager_DID(string agentExecutablePath)
@@ -100,15 +99,14 @@ namespace Mesh_App
             cmbProfiles.DisplayMember = "Name";
 
             List<DIDUser> localDIDUsers = new List<DIDUser>();
-            foreach (string profile in profiles)
+            foreach (string profilePath in profiles)
             {
-                if (profile.EndsWith(".profile.json"))
+                if (profilePath.EndsWith(".profile.json"))
                 {
-                    var json = File.ReadAllText(profile);
-                    localDIDUsers.Add(DIDUser.GetUser(json));
+                    localDIDUsers.Add(DIDUser.GetUser(profilePath));
                     foreach (DIDUser user in localDIDUsers)
                     {
-                        user.DIDKey.KeyFilePath = profile;
+                        user.DIDKey.KeyFilePath = profilePath;
                         cmbProfiles.Items.Add(user);
                     }
                     //bool profileRunning = false;                    
@@ -237,15 +235,14 @@ namespace Mesh_App
             {
                 _selectedUser = (DIDUser)cmbProfiles.SelectedItem;
 
-                int localServicePort = (new Random()).Next(10000, 65000); //fixed random port for p2p
+                //int localServicePort = (new Random()).Next(10000, 65000); //fixed random port for p2p
 
-                Stream s = new FileStream(_selectedUser.DIDKey.KeyFilePath, FileMode.Open);
-                MeshNode node = new MeshNode(s, _selectedUser.Password, _selectedUser.DIDKey.KeyFilePath, null);
+                //MeshNode node = new MeshNode(MeshNodeType.P2P, new byte[] { 1 }, SecureChannelCipherSuite.ECDHE256_RSA2048_WITH_AES256_CBC_HMAC_SHA256 | SecureChannelCipherSuite.DHE2048_RSA2048_WITH_AES256_CBC_HMAC_SHA256, 
+                //    Convert.ToUInt16(localServicePort), _selectedUser.Name, _selectedUser.DIDKey.KeyFilePath, GetDownloadFolder(), null);
 
-                node.CreateGroupChat("Local Network", "", true);
+                //node.CreateGroupChat("Local Network", "", true);
 
-                _meshNode = node;
-
+                //_meshNode = node;
 
                 if (_selectedUser == null)
                 {
@@ -259,7 +256,7 @@ namespace Mesh_App
                     return;
                 }
 
-                frmMain_DID frmMain = new frmMain_DID(_meshNode, _selectedUser, _isPortableApp, this);
+                frmMain_DID frmMain = new frmMain_DID(_selectedUser, _isPortableApp, this);
                 //_runningProfiles.Add(profileName, frmMain);
 
                 ToolStripMenuItem mnuItem = new ToolStripMenuItem(_selectedUser.Name);
