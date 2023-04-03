@@ -34,7 +34,7 @@ using TechnitiumLibrary.IO;
 
 namespace Mesh_App
 {
-    public partial class frmMain : Form, IDebug
+    public partial class frmMain_DID : Form, IDebug
     {
         #region variables
 
@@ -58,7 +58,7 @@ namespace Mesh_App
 
         #region constructor
         // MeshUpdate meshUpdate,
-        public frmMain(MeshNode node, string profileFilePath, bool isPortableApp, frmProfileManager profileManager)
+        public frmMain_DID(MeshNode node, string profileFilePath, bool isPortableApp, frmProfileManager profileManager)
         {
             InitializeComponent();
 
@@ -78,6 +78,26 @@ namespace Mesh_App
             //_meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
         }
 
+        public frmMain_DID(DIDUser didUser, bool isPortableApp, frmProfileManager_DID profileManager)
+        {
+            InitializeComponent();
+
+            DIDUser = didUser;
+            //_node = node;
+            //_profileFilePath = profileFilePath;
+            _isPortableApp = isPortableApp;
+            //_meshUpdate = meshUpdate;
+            _profileManager_DID = profileManager;
+
+            //_node.InvitationReceived += MeshNode_InvitationReceived;
+
+            if (_node.Type == MeshNodeType.Anonymous)
+                this.Text += " [Anonymous]";
+
+            //_meshUpdate.UpdateAvailable += meshUpdate_UpdateAvailable;
+            //_meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
+            //_meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
+        }
         
 
         #endregion
@@ -151,7 +171,7 @@ namespace Mesh_App
             _networkStatusCheckTimer.Dispose();
             _node.Dispose();
 
-            _profileManager.UnloadProfileMainForm(this);
+            _profileManager_DID.UnloadProfileMainForm(this);
 
             StopDebugging();
         }

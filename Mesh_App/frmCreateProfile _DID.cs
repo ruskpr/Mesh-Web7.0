@@ -122,7 +122,7 @@ namespace Mesh_App
             // create open file dialog to get a single file to import
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Title = "Select DID Key File to Import";
-            ofd.Filter = "DID Key Files (*.profile)|*.profile|All Files (*.*)|*.*";
+            ofd.Filter = "DID Key Files (*.profile.json)|*.profile.json|All Files (*.*)|*.*";
             ofd.Multiselect = false;
 
             if (ofd.ShowDialog() == DialogResult.OK)

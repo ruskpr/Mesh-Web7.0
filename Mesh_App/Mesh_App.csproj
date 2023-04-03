@@ -68,6 +68,9 @@
     <Compile Update="frmImportPEM.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="frmMain_DID.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>

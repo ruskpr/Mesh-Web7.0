@@ -77,7 +77,7 @@ namespace Mesh_App
 
         private void RefreshProfileList()
         {
-            string[] profiles = Directory.GetFiles(Environment.CurrentDirectory, "*.profile", SearchOption.TopDirectoryOnly);
+            string[] profiles = Directory.GetFiles(Environment.CurrentDirectory, "*.profile.json", SearchOption.TopDirectoryOnly);
 
             if (profiles.Length > 0)
             {
@@ -92,31 +92,35 @@ namespace Mesh_App
                 if (!Directory.Exists(_profileFolder))
                     Directory.CreateDirectory(_profileFolder);
 
-                profiles = Directory.GetFiles(_profileFolder, "*.profile", SearchOption.TopDirectoryOnly);
+                profiles = Directory.GetFiles(_profileFolder, "*.profile.json", SearchOption.TopDirectoryOnly);
             }
 
-            cmbProfiles.Items.Clear();            
+            cmbProfiles.Items.Clear();
+            cmbProfiles.DisplayMember = "Name";
 
-
-            List<DIDUser> didUsers = new List<DIDUser>();
+            List<DIDUser> localDIDUsers = new List<DIDUser>();
             foreach (string profile in profiles)
             {
-                if (profile.EndsWith(".profile"))
+                if (profile.EndsWith(".profile.json"))
                 {
                     var json = File.ReadAllText(profile);
-                    didUsers.Add(JsonConvert.DeserializeObject<DIDUser>(json));   
+                    localDIDUsers.Add(DIDUser.GetUser(json));
+                    foreach (DIDUser user in localDIDUsers)
+                    {
+                        cmbProfiles.Items.Add(user);
+                    }
                     //bool profileRunning = false;                    
                 }
             }
 
             
 
-            if (cmbProfiles.Items.Count > 0)
-            {
-                cmbProfiles.DataSource = didUsers;
-                cmbProfiles.DisplayMember = "Name";
-                cmbProfiles.SelectedIndex = 0;
-            }
+            //if (localDIDUsers.Count > 0)
+            //{
+            //    cmbProfiles.DataSource = localDIDUsers;
+            //    cmbProfiles.DisplayMember = "Name";
+            //    cmbProfiles.SelectedIndex = 0;
+            //}
         }
 
         private string GetDownloadFolder()
@@ -148,17 +152,7 @@ namespace Mesh_App
 
                 if (frm.ShowDialog(this) == DialogResult.OK)
                 {
-                    int localServicePort;
-
-                    //if (frm.NodeType == MeshNodeType.P2P)
-                    //    localServicePort = (new Random()).Next(10000, 65000); //fixed random port for p2p
-                    //else
-                    //    localServicePort = 0; //new random port at startup for Tor node
-
-                    string profileFilePath = Path.Combine(_profileFolder, frm.ProfileDisplayName + ".profile");
-
-
-                    //LoadProfileMainForm(_selectedUser, profileFilePath);
+                    //
                 }
                 else
                 {
@@ -174,31 +168,7 @@ namespace Mesh_App
             RefreshProfileList();
         }
 
-        private void StartMainForm(DIDUser selectedUser, string profileFilePath)
-        {
-            if (_selectedUser == null)
-            {
-                MessageBox.Show("Select a valid user");
-                return;
-            }
-
-            frmMain frmMain = new frmMain(_selectedUser, _isPortableApp, this);
-            //_runningProfiles.Add(profileName, frmMain);
-
-            ToolStripMenuItem mnuItem = new ToolStripMenuItem(selectedUser.Name);
-            mnuItem.Click += mnuProfileMainForm_Click;
-
-            mnuSystemTray.Items.Insert(2, mnuItem);
-
-            this.Hide();
-            txtPassword.Text = "";
-
-            frmMain.Show();
-
-            RefreshProfileList(); //refresh to remove loaded profile
-        }
-
-        internal void UnloadProfileMainForm(frmMain frm)
+        internal void UnloadProfileMainForm(frmMain_DID frm)
         {
             string profileName = Path.GetFileNameWithoutExtension(frm.ProfileFilePath);
 
@@ -252,19 +222,32 @@ namespace Mesh_App
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            string profileFilePath = Path.Combine(_profileFolder, (cmbProfiles.SelectedItem as string) + ".profile");
+            //string profileFilePath = Path.Combine(_profileFolder, (cmbProfiles.SelectedItem as string) + ".profile.json");
 
             try
             {
-                using (FileStream fS = new FileStream(profileFilePath, FileMode.Open, FileAccess.Read))
+                _selectedUser = (DIDUser)cmbProfiles.SelectedItem;
+
+                if (_selectedUser == null)
                 {
-                    MeshNode node = new MeshNode(fS, txtPassword.Text, _profileFolder, null);
-
-                    if (_isPortableApp || !Directory.Exists(node.DownloadFolder))
-                        node.DownloadFolder = GetDownloadFolder();
-
-                    StartMainForm((DIDUser)cmbProfiles.SelectedItem, profileFilePath);
+                    MessageBox.Show("Select a valid user");
+                    return;
                 }
+
+                frmMain_DID frmMain = new frmMain_DID(_selectedUser, _isPortableApp, this);
+                //_runningProfiles.Add(profileName, frmMain);
+
+                ToolStripMenuItem mnuItem = new ToolStripMenuItem(_selectedUser.Name);
+                mnuItem.Click += mnuProfileMainForm_Click;
+
+                mnuSystemTray.Items.Insert(2, mnuItem);
+
+                this.Hide();
+                txtPassword.Text = "";
+
+                frmMain.Show();
+
+                RefreshProfileList(); //refresh to remove loaded profile
             }
             catch (Exception ex)
             {
@@ -278,8 +261,8 @@ namespace Mesh_App
             {
                 try
                 {
-                    File.Delete(Path.Combine(_profileFolder, (cmbProfiles.SelectedItem as string) + ".profile"));
-                    File.Delete(Path.Combine(_profileFolder, (cmbProfiles.SelectedItem as string) + ".profile.bak"));
+                    File.Delete(Path.Combine(_profileFolder, (cmbProfiles.SelectedItem as string) + ".profile.json"));
+                    File.Delete(Path.Combine(_profileFolder, (cmbProfiles.SelectedItem as string) + ".profile.json.bak"));
 
                     mnuProfileManager_Click(null, null);
                 }
@@ -294,7 +277,7 @@ namespace Mesh_App
         {
             using (OpenFileDialog oFD = new OpenFileDialog())
             {
-                oFD.Filter = "Mesh Profile (*.profile)|*.profile";
+                oFD.Filter = "Mesh Profile (*.profile.json)|*.profile.json";
                 oFD.Title = "Import Mesh Profile ...";
                 oFD.CheckFileExists = true;
                 oFD.Multiselect = false;
@@ -303,7 +286,7 @@ namespace Mesh_App
                 {
                     try
                     {
-                        File.Copy(oFD.FileName, Path.Combine(_profileFolder, Path.GetFileNameWithoutExtension(oFD.FileName) + ".profile"));
+                        File.Copy(oFD.FileName, Path.Combine(_profileFolder, Path.GetFileNameWithoutExtension(oFD.FileName) + ".profile.json"));
 
                         mnuProfileManager_Click(null, null);
                     }
@@ -320,9 +303,9 @@ namespace Mesh_App
             using (SaveFileDialog sFD = new SaveFileDialog())
             {
                 sFD.Title = "Export Mesh Profile As...";
-                sFD.Filter = "Mesh Profile (*.profile)|*.profile";
-                sFD.DefaultExt = ".profile";
-                sFD.FileName = (cmbProfiles.SelectedItem as string) + ".profile";
+                sFD.Filter = "Mesh Profile (*.profile.json)|*.profile.json";
+                sFD.DefaultExt = ".profile.json";
+                sFD.FileName = (cmbProfiles.SelectedItem as string) + ".profile.json";
                 sFD.CheckPathExists = true;
                 sFD.OverwritePrompt = true;
 
@@ -330,7 +313,7 @@ namespace Mesh_App
                 {
                     try
                     {
-                        File.Copy(Path.Combine(_profileFolder, (cmbProfiles.SelectedItem as string) + ".profile"), sFD.FileName, true);
+                        File.Copy(Path.Combine(_profileFolder, (cmbProfiles.SelectedItem as string) + ".profile.json"), sFD.FileName, true);
                     }
                     catch (Exception ex)
                     {
