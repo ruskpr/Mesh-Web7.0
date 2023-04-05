@@ -17,10 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+using DIDCOMMAgent;
 using Mesh_Core.Message;
 using Mesh_Core.Network.Connections;
 using Mesh_Core.Network.DHT;
 using Mesh_Core.Network.SecureChannel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -1421,42 +1423,49 @@ namespace Mesh_Core.Network
             });
         }
 
-        public void SendTextMessage_DIDComm(string message)
+        public DIDCOMMResponse[] SendTextMessage_DIDComm(string message, ISubject sender, List<ISubject> recipients)
         {
-            if (message.Length > MAX_MESSAGE_SIZE)
-                throw new IOException("MeshNetwork message data size cannot exceed " + MAX_MESSAGE_SIZE + " bytes.");
+            DIDCOMMResponse response;
+            string agentUrl = "http://localhost:8081/DIDCOMMEndpoint/";
 
-            string emJson = "{\"message\": " + "\""+ message + "\"}";
+            // send messages and return a response for each recipient
+            return DIDCOMMAgent.Message.Send(agentUrl, message, sender, recipients).ToArray();
 
-            using (var httpClient = new HttpClient())
-            {
-                string agentUrl = "http://localhost:8081/DIDCOMMEndpoint/";
-                Console.WriteLine($">>>Agent Url: {agentUrl}");
+            //if (message.Length > MAX_MESSAGE_SIZE)
+            //    throw new IOException("MeshNetwork message data size cannot exceed " + MAX_MESSAGE_SIZE + " bytes.");
 
-                using (var requestMessage = new HttpRequestMessage(new HttpMethod("POST"), agentUrl))
-                {
-                    requestMessage.Headers.TryAddWithoutValidation("Accept", "application/json");
-                    Console.WriteLine($">>>Payload: {emJson}");
-                    requestMessage.Content = new StringContent(emJson);
-                    var task = httpClient.SendAsync(requestMessage);
-                    task.Wait();
-                    var result = task.Result;
-                    string jsonResponse = result.Content.ReadAsStringAsync().Result;
-                    Console.WriteLine($">>>Response: {jsonResponse}");
-                }
-            }
+            //string emJson = "{\"message\": " + "\""+ message + "\"}";
+            ////DIDCOMMResponse response = null;
+            //using (var httpClient = new HttpClient())
+            //{
+            //    Console.WriteLine($">>>Agent Url: {agentUrl}");
+            //    using (var requestMessage = new HttpRequestMessage(new HttpMethod("POST"), agentUrl))
+            //    {
+            //        requestMessage.Headers.TryAddWithoutValidation("Accept", "application/json");
+            //        Console.WriteLine($">>>Payload: {emJson}");
+            //        requestMessage.Content = new StringContent(emJson);
+            //        var task = httpClient.SendAsync(requestMessage);
+            //        task.Wait();
+            //        var result = task.Result;
+            //        string jsonResponse = result.Content.ReadAsStringAsync().Result;
+            //        response = JsonConvert.DeserializeObject<DIDCOMMResponse>(jsonResponse); 
+            //        Console.WriteLine($">>>Response: {jsonResponse}");
+            //    }
+            //}
 
-            MessageRecipient[] msgRcpt = GetMessageRecipients();
+            //MessageRecipient[] msgRcpt = GetMessageRecipients();
 
-            MessageItem msg = new MessageItem(DateTime.UtcNow, _userId, msgRcpt, MessageType.TextMessage, message, null, null, 0, null);
-            msg.WriteTo(_store);
+            //MessageItem msg = new MessageItem(DateTime.UtcNow, _userId, msgRcpt, MessageType.TextMessage, message, null, null, 0, null);
+            //msg.WriteTo(_store);
 
-            ThreadPool.QueueUserWorkItem(delegate (object state)
-            {
-                SendMessageBroadcast(msg.GetMeshNetworkPacket());
+            //ThreadPool.QueueUserWorkItem(delegate (object state)
+            //{
+            //    SendMessageBroadcast(msg.GetMeshNetworkPacket());
 
-                RaiseEventMessageReceived(_selfPeer, msg);
-            });
+            //    RaiseEventMessageReceived(_selfPeer, msg);
+            //});
+
+            //return response;
         }
 
         public void SendInlineImage(string message, string filePath, byte[] imageThumbnail)

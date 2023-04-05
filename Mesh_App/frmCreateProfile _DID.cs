@@ -93,7 +93,7 @@ namespace Mesh_App
                 return;
             }
 
-            DIDUser.Create(txtProfileDisplayName.Text, txtProfilePassword.Text);
+            //DIDUser.Create(txtProfileDisplayName.Text, txtProfilePassword.Text);
 
             #endregion
 

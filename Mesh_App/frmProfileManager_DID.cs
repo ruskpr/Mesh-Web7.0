@@ -58,7 +58,6 @@ namespace Mesh_App
             //init profiles
             RefreshProfileList();
 
-
             // start didcomm agent
             if (Process.GetProcessesByName("DIDCOMMAgent").Length == 0)
             {

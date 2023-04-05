@@ -9,12 +9,50 @@ using System.Linq;
 using Okapi.Examples.V1;
 using System.Net.Http;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace DIDCOMMAgent
 {
 
     public class Message
     {
+        public static string Decrypt(DIDCOMMMessage req)
+        {
+            DIDCOMMEncryptedMessage didcommEM = req.encryptedMessage;
+
+            // Decrypt the DIDCOMMEncryptedMessage from the request
+            EncryptedMessage emessage = new EncryptedMessage();
+            emessage.Iv = ByteString.FromBase64(didcommEM.lv64);
+            emessage.Ciphertext = ByteString.FromBase64(didcommEM.ciphertext64);
+            emessage.Tag = ByteString.FromBase64(didcommEM.tag64);
+            EncryptionRecipient r = new EncryptionRecipient();
+            r.MergeFrom(ByteString.FromBase64(didcommEM.recipients64[0]));
+            emessage.Recipients.Add(r);
+
+            Console.WriteLine(emessage.Recipients.Count.ToString());
+            Console.WriteLine(emessage.Recipients[0].Header.SenderKeyId);
+            Console.WriteLine(emessage.Recipients[0].Header.KeyId);
+
+            string skidid = emessage.Recipients[0].Header.SenderKeyId;
+            string keyid = emessage.Recipients[0].Header.KeyId;
+
+            var decryptedMessage = DIDComm.Unpack(
+              new UnpackRequest
+              {
+                  Message = emessage,
+                  //SenderKey = Program.KeyVault[skidid].MsgPk,
+                  //ReceiverKey = Program.KeyVault[keyid].MsgSk
+              }
+            );
+            var plaintext = decryptedMessage.Plaintext;
+            CoreMessage core = new CoreMessage();
+            core.MergeFrom(plaintext);
+            BasicMessage basic = new BasicMessage();
+            basic.MergeFrom(core.Body);
+            return basic.Text;
+        }
+
+
         public static string Decrypt(EncryptedMessage em, JsonWebKey senderPublicKey, JsonWebKey recipientSecretKey)
         {
             // create unpack request
@@ -70,12 +108,9 @@ namespace DIDCOMMAgent
         /// Returns a collection of HTTP status codes for each message sent.
         ///
         /// </summary>
-        public static IEnumerable<HttpStatusCode> Send(string endpointUrl, string plaintextMsg, ISubject sender, List<ISubject> recipients)
+        public static IEnumerable<DIDCOMMResponse> Send(string endpointUrl, string plaintextMsg, ISubject sender, List<ISubject> recipients)
         {
-            var statusCodes = new List<HttpStatusCode>();
-
-            
-            //1. create a (Okapi) core message 
+            var responses = new List<DIDCOMMResponse>();
 
             // get the recipient keys
             var recipientKeys = recipients.Select(r => r.DIDKey.KeyId).ToArray();
@@ -118,13 +153,14 @@ namespace DIDCOMMAgent
                         var task = httpClient.SendAsync(requestMessage);
                         task.Wait();
                         HttpResponseMessage result = task.Result;
-                        statusCodes.Add(result.StatusCode);
                         string jsonResponse = result.Content.ReadAsStringAsync().Result;
+                        DIDCOMMResponse res = JsonConvert.DeserializeObject<DIDCOMMResponse>(jsonResponse);
+                        responses.Add(res);
                     }
                 }
             }
 
-            return statusCodes;
+            return responses;
         }
 
     }

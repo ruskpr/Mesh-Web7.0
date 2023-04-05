@@ -23,8 +23,9 @@ namespace DIDCOMMAgent
             public override void DIDCOMMEndpointHandler(DIDCOMMMessage request, out DIDCOMMResponse response)
             {
                 // TODO decrypt request message
-
+                Message.Decrypt(request)
                 response.rc = (int)Trinity.TrinityErrorCode.E_SUCCESS;
+                response.message = "Hello from DIDCOMM Agent!";
                 Console.WriteLine($"RESPONSE CODE: {response.rc}");
             }
         }
@@ -33,7 +34,6 @@ namespace DIDCOMMAgent
 
         #region main
         
-
         public static void Main(string[] args)
         {
             //init alice and bob
@@ -42,6 +42,7 @@ namespace DIDCOMMAgent
             int? port = HandlePortArgs(args);
 
             Trinity.TrinityConfig.HttpPort = port ?? 8081;
+            Trinity.TrinityConfig.HttpPort = 8081;
 
             DIDCOMMAgent didAgent = new DIDCOMMAgent();
             didAgent.Start();

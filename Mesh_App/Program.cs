@@ -85,19 +85,19 @@ namespace Mesh_App
 
                 #region check for multiple instances
 
-                bool createdNewMutex;
+                //bool createdNewMutex;
 
-                _app = new Mutex(true, MUTEX_NAME, out createdNewMutex);
+                //_app = new Mutex(true, MUTEX_NAME, out createdNewMutex);
 
-                if (!createdNewMutex)
-                {
-                    MessageBox.Show("Mesh App is already running. Please click on the Mesh App system tray icon to open the chat window.", "Mesh App Already Running!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
+                //if (!createdNewMutex)
+                //{
+                //    MessageBox.Show("Mesh App is already running. Please click on the Mesh App system tray icon to open the chat window.", "Mesh App Already Running!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    return;
+                //}
 
                 #endregion
 
-                Application.Run(new frmProfileManager_DID(Path.Combine(Path.GetDirectoryName(appPath), "DIDCOMMAgent.exe")));
+                Application.Run(new frmProfileManager(Path.Combine(Path.GetDirectoryName(appPath), "DIDCOMMAgent.exe")));
             //}
             //catch (Exception ex)
             //{

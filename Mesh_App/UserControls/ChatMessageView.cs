@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+using DIDCOMMAgent;
+using Mesh_Core.DIDComm;
 using Mesh_Core.Message;
 using Mesh_Core.Network;
 using System;
@@ -272,11 +274,25 @@ namespace Mesh_App.UserControls
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            var profileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Technitium", "Mesh");
+            var bobKeyPath = Path.Combine(profileFolder, "bob.key.json");
+            DIDUser bob = DIDUser.GetUser(bobKeyPath);
+
+            var aliceKeyPath = Path.Combine(profileFolder, "alice.key.json");
+            DIDUser alice = DIDUser.GetUser(aliceKeyPath);
+            var recipients = new List<ISubject>();
+            recipients.Add(alice);
+
             if (txtMessage.Text != "")
             {
-                _network.SendTextMessage_DIDComm(txtMessage.Text);
+                var responses = _network.SendTextMessage_DIDComm(txtMessage.Text, bob, recipients);
                 txtMessage.Text = "";
                 txtMessage.Focus();
+
+                foreach (var res in responses)
+                {
+                    MessageBox.Show(res.message);
+                }
             }
         }
 

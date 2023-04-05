@@ -51,20 +51,15 @@ namespace Mesh_Core.DIDComm
             return JsonConvert.DeserializeObject<DIDUser>(profileFolder);
         }
 
-        public static void Create(string name, string password)
+        public static void Create(string name, string password, string keyPath)
         {
-            var profileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Technitium", "Mesh");
-
-            if (!Directory.Exists(profileFolder))
-                Directory.CreateDirectory(profileFolder);
-
             DIDUser user = new DIDUser()
             {
                 Name = name,
                 Password = password,
             };
 
-            DIDKey key = new DIDKey(user.Name, profileFolder);
+            DIDKey key = new DIDKey(user.Name, keyPath);
             key.InitKey();
             user.DIDKey = key;
             user.MsgPublicKey = user.DIDKey.PublicKey;
@@ -77,7 +72,7 @@ namespace Mesh_Core.DIDComm
 
             // jsonconvert user to profile folder
             var userAsJson = JsonConvert.SerializeObject(user);
-            File.WriteAllText(Path.Combine(profileFolder, $"{user.Name}.profile.json"), userAsJson);
+            File.WriteAllText(keyPath, userAsJson);
         }
 
     }

@@ -18,9 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using Mesh_Core;
+using Mesh_Core.DIDComm;
 using Mesh_Core.Network.SecureChannel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
@@ -58,9 +60,15 @@ namespace Mesh_App
             //_meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
             //_meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
 
-            //init tor controller
-
-            // DISABLED THE TOR CONTROLLER FOR WEB 7 DEVELOPMENT
+            // start didcomm agent
+            //if (Process.GetProcessesByName("DIDCOMMAgent").Length == 0)
+            //{
+            //    ProcessStartInfo startinfo = new ProcessStartInfo();
+            //    startinfo.FileName = $"DIDCOMMAgent.exe";
+            //    startinfo.Arguments = $"-p {AppSettings.AgentPort}";
+            //    startinfo.UseShellExecute = true;
+            //    Program.AgentProcess = Process.Start(startinfo);
+            //}
 
             //_torController = new TorController(torExecutableFilePath);
             //_torController.Socks5EndPoint = new IPEndPoint(IPAddress.Loopback, 9950);
@@ -172,6 +180,11 @@ namespace Mesh_App
                         node.ChangePassword(frm.ProfilePassword);
                         node.SaveTo(fS);
                     }
+
+                    string keyFilePath = Path.Combine(_profileFolder, frm.ProfileDisplayName + ".key.json");
+                    DIDUser.Create(frm.ProfileDisplayName, frm.ProfilePassword, keyFilePath);
+
+
 
                     LoadProfileMainForm(frm.ProfileDisplayName, node, profileFilePath);
                 }
