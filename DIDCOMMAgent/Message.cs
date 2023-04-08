@@ -141,7 +141,7 @@ namespace DIDCOMMAgent
                     });
 
                 // convert DIDCOMM message to json
-                DIDCOMMMessage didcommMsg = new DIDCOMMMessage(sender.Name, recipient.Name, em);
+                DIDCOMMMessage didcommMsg = new DIDCOMMMessage(em);
                 var emJson = didcommMsg.ToString();
 
                 // send message to endpoint

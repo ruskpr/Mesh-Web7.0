@@ -13,15 +13,12 @@ struct DIDCOMMEncryptedMessage
 
 struct DIDCOMMMessage
 {
-	string senderUsername;
-	string recieverUsername;
 	DIDCOMMEncryptedMessage encryptedMessage; 
 }
 
 struct DIDCOMMResponse
 {
 	long rc;
-	string message;
 }
 
 protocol DIDCOMMEndpoint

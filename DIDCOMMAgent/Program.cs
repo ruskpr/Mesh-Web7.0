@@ -1,10 +1,14 @@
 ﻿using DIDCOMMAgent;
+using Google.Protobuf;
 using Newtonsoft.Json;
 using Okapi.Keys.V1;
+using Pbmse.V1;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using Trinity;
 
 namespace DIDCOMMAgent
 {
@@ -13,33 +17,65 @@ namespace DIDCOMMAgent
 
         #region fields
 
-        static int? _port;
+        static int? _didcommAgentPort;
+        private static int _userAgentPort;
 
         #endregion
 
         #region didcomm endpoint handler
-        
+
         class DIDCOMMAgent : DIDCOMMAgentBase
         {
             public override void DIDCOMMEndpointHandler(DIDCOMMMessage request, out DIDCOMMResponse response)
             {
-                // recieve message from user agent
-                var sender = SubjectVault[request.senderUsername];
-                var reciever = SubjectVault["bob"];
+                DIDCOMMEncryptedMessage didcommEncryptedMessage64 = request.encryptedMessage;
 
-                // send it to the reciever
+                EncryptedMessage encryptedMessage = new EncryptedMessage();
+                encryptedMessage.Iv = ByteString.FromBase64(didcommEncryptedMessage64.lv64);
+                encryptedMessage.Ciphertext = ByteString.FromBase64(didcommEncryptedMessage64.ciphertext64);
+                encryptedMessage.Tag = ByteString.FromBase64(didcommEncryptedMessage64.tag64);
+                EncryptionRecipient recipient = new EncryptionRecipient();
+                recipient.MergeFrom(ByteString.FromBase64(didcommEncryptedMessage64.recipients64[0]));
+                encryptedMessage.Recipients.Add(recipient);
 
-                var plaintext = Message.Decrypt(request.encryptedMessage, sender.MsgPublicKey, reciever.MsgSecretKey);
+                string kid = recipient.Header.KeyId;
+                string skid = recipient.Header.SenderKeyId;
+
+                // Persist encryptedMessage
+                DIDCOMMEncryptedMessage_Cell encryptedMessageCell = new DIDCOMMEncryptedMessage_Cell(didcommEncryptedMessage64);
+                // encryptedMessageCell.em = didcommEncryptedMessage64;
+                Global.LocalStorage.SaveDIDCOMMEncryptedMessage_Cell(encryptedMessageCell);
+                Global.LocalStorage.SaveStorage();
+                var celltype = Global.LocalStorage.GetCellType(encryptedMessageCell.CellId);
+                ulong cellcount = Global.LocalStorage.CellCount;
+                Console.WriteLine("cellid: " + encryptedMessageCell.CellId.ToString() + " celltype: " + celltype.ToString() + " cellcount: " + cellcount);
+
+                if (!Program.Queues.ContainsKey(kid))
+                {
+                    Program.Queues.TryAdd(kid, new ConcurrentQueue<EncryptedMessage>());
+                }
+                Program.Queues[kid].Enqueue(encryptedMessage);
 
                 response.rc = (int)Trinity.TrinityErrorCode.E_SUCCESS;
-                response.message = plaintext;
-                Console.WriteLine($"RESPONSE CODE: {response.rc}");
-            }
+
+                Program.MessagesReceived++;
+                Console.WriteLine("DIDCommEndpointHandler: "
+                    + DIDCommHelpers.DIDCommMessageRequestsSent.ToString() + " DIDComm sent. "
+                    + DIDCommHelpers.HttpMessagesSent.ToString() + " HTTP sent. "
+                    + Program.MessagesReceived.ToString() + " HTTP rcvd. "
+                    + Program.VCsProcessed.ToString() + " VCs proc.");
+        }
         }
 
         #endregion
 
+        public static ConcurrentDictionary<string, ConcurrentQueue<EncryptedMessage>> Queues =
+            new ConcurrentDictionary<string, ConcurrentQueue<EncryptedMessage>>();
+
         public static Dictionary<string, ISubject> SubjectVault = new Dictionary<string, ISubject>();
+
+        public static int MessagesReceived;
+        public static int VCsProcessed;
 
         #region main
 
@@ -50,16 +86,16 @@ namespace DIDCOMMAgent
             // store subjects in memory for testing
             GetSubjects();
 
-            _port = HandlePortArgs(args);
+            //_didcommAgentPort = HandlePortArgs(args);
 
-            _port = 8081; // TODO: remove this line after testing
+            _didcommAgentPort = 8081; // TODO: remove this line after testing
+            _userAgentPort = 8082;
 
-            Trinity.TrinityConfig.HttpPort = _port ?? throw new ArgumentNullException("No port was initialized, use '-p <port number>' to set your agent port");
-            //Trinity.TrinityConfig.HttpPort = 8081;
+            Trinity.TrinityConfig.HttpPort = _didcommAgentPort ?? throw new ArgumentNullException("No port was initialized, use '-p <port number>' to set your agent port");
 
             DIDCOMMAgent didAgent = new DIDCOMMAgent();
             didAgent.Start();
-            Console.WriteLine($"DIDCOMM Agent started on port {_port}...");
+            Console.WriteLine($"DIDCOMM Agent started on port {_didcommAgentPort}...");
 
             Console.ReadLine();
             didAgent.Stop();
