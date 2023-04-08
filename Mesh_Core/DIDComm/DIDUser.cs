@@ -34,23 +34,7 @@ namespace Mesh_Core.DIDComm
             var user = JsonConvert.DeserializeObject<DIDUser>(json);
             return user;
         }
-
-        public static DIDUser? Import(string keyPath, bool overwrite)
-        {
-            if (!keyPath.EndsWith(".profile")) return null;
-
-            var fileName = Path.GetFileName(keyPath);
-
-            var profileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Technitium", "Mesh");
-
-            if (!Directory.Exists(profileFolder))
-                Directory.CreateDirectory(profileFolder);
-
-            File.Copy(keyPath, Path.Combine(profileFolder + fileName), overwrite);
-
-            return JsonConvert.DeserializeObject<DIDUser>(profileFolder);
-        }
-
+        
         public static void Create(string name, string password, string keyPath)
         {
             DIDUser user = new DIDUser()
