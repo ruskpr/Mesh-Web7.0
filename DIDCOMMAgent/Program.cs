@@ -61,9 +61,7 @@ namespace DIDCOMMAgent
             didAgent.Start();
             Console.WriteLine($"DIDCOMM Agent started on port {_port}...");
 
-            //Console.WriteLine("Press Enter to stop DIDCOMM Agent...");
             Console.ReadLine();
-
             didAgent.Stop();
         }
 
