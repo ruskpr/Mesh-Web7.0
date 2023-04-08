@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using Mesh_Core;
-using Mesh_Core.DIDComm;
+using DIDCOMMAgent;
 using Mesh_Core.Network.SecureChannel;
 using System;
 using System.Collections.Generic;

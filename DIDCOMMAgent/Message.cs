@@ -16,18 +16,18 @@ namespace DIDCOMMAgent
 
     public class Message
     {
-        public static string Decrypt(DIDCOMMMessage req)
+        public static string Decrypt(DIDCOMMEncryptedMessage didcommEM, JsonWebKey senderMsgPublicKey, JsonWebKey receiverMsgSecretKey)
         {
-            DIDCOMMEncryptedMessage didcommEM = req.encryptedMessage;
-
-            // Decrypt the DIDCOMMEncryptedMessage from the request
-            EncryptedMessage emessage = new EncryptedMessage();
-            emessage.Iv = ByteString.FromBase64(didcommEM.lv64);
-            emessage.Ciphertext = ByteString.FromBase64(didcommEM.ciphertext64);
-            emessage.Tag = ByteString.FromBase64(didcommEM.tag64);
-            EncryptionRecipient r = new EncryptionRecipient();
-            r.MergeFrom(ByteString.FromBase64(didcommEM.recipients64[0]));
-            emessage.Recipients.Add(r);
+            EncryptedMessage emessage = new EncryptedMessage()
+            {
+                Iv = ByteString.FromBase64(didcommEM.lv64),
+                Ciphertext = ByteString.FromBase64(didcommEM.ciphertext64),
+                Tag = ByteString.FromBase64(didcommEM.tag64),
+            };
+            
+            EncryptionRecipient recipient = new EncryptionRecipient();
+            recipient.MergeFrom(ByteString.FromBase64(didcommEM.recipients64[0]));
+            emessage.Recipients.Add(recipient);
 
             Console.WriteLine(emessage.Recipients.Count.ToString());
             Console.WriteLine(emessage.Recipients[0].Header.SenderKeyId);
@@ -40,10 +40,11 @@ namespace DIDCOMMAgent
               new UnpackRequest
               {
                   Message = emessage,
-                  //SenderKey = Program.KeyVault[skidid].MsgPk,
-                  //ReceiverKey = Program.KeyVault[keyid].MsgSk
+                  SenderKey = senderMsgPublicKey,
+                  ReceiverKey = receiverMsgSecretKey
               }
             );
+
             var plaintext = decryptedMessage.Plaintext;
             CoreMessage core = new CoreMessage();
             core.MergeFrom(plaintext);
@@ -140,7 +141,7 @@ namespace DIDCOMMAgent
                     });
 
                 // convert DIDCOMM message to json
-                DIDCOMMMessage didcommMsg = new DIDCOMMMessage(em);
+                DIDCOMMMessage didcommMsg = new DIDCOMMMessage(sender.Name, recipient.Name, em);
                 var emJson = didcommMsg.ToString();
 
                 // send message to endpoint

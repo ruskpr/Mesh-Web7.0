@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using Mesh_Core;
-using Mesh_Core.DIDComm;
+using DIDCOMMAgent;
 using System;
 using System.Net;
 using System.Security.Cryptography;
@@ -130,14 +130,14 @@ namespace Mesh_App
                 try
                 {
                     // import key
-                    _newUser = DIDUser.Import(ofd.FileName, true);
-                    // display key info
-                    txtProfileDisplayName.Text = _newUser.Name;
-                    txtProfilePassword.Text = "";
-                    txtConfirmPassword.Text = "";
-                    txtProfilePassword.Enabled = false;
-                    txtConfirmPassword.Enabled = false;
-                    btnImportKey.Enabled = false;
+                    //_newUser = DIDUser.Import(ofd.FileName, true);
+                    //// display key info
+                    //txtProfileDisplayName.Text = _newUser.Name;
+                    //txtProfilePassword.Text = "";
+                    //txtConfirmPassword.Text = "";
+                    //txtProfilePassword.Enabled = false;
+                    //txtConfirmPassword.Enabled = false;
+                    //btnImportKey.Enabled = false;
                 }
                 catch (Exception ex)
                 {

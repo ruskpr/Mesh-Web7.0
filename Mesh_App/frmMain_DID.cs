@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using Mesh_App.UserControls;
 using Mesh_Core;
-using Mesh_Core.DIDComm;
+using DIDCOMMAgent;
 using Mesh_Core.Message;
 using Mesh_Core.Network;
 using Mesh_Core.Network.Connections;

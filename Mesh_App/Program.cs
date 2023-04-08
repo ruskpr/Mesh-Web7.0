@@ -40,7 +40,7 @@ namespace Mesh_App
         public static Process? AgentProcess;
         #endregion
 
-        #region public
+        #region main
 
         [STAThread]
         public static void Main(string[] args)
@@ -81,29 +81,52 @@ namespace Mesh_App
                     }
                 }
 
-                #endregion
+            #endregion
 
-                #region check for multiple instances
+            #region check for multiple instances
 
-                //bool createdNewMutex;
+            //bool createdNewMutex;
 
-                //_app = new Mutex(true, MUTEX_NAME, out createdNewMutex);
+            //_app = new Mutex(true, MUTEX_NAME, out createdNewMutex);
 
-                //if (!createdNewMutex)
-                //{
-                //    MessageBox.Show("Mesh App is already running. Please click on the Mesh App system tray icon to open the chat window.", "Mesh App Already Running!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //    return;
-                //}
+            //if (!createdNewMutex)
+            //{
+            //    MessageBox.Show("Mesh App is already running. Please click on the Mesh App system tray icon to open the chat window.", "Mesh App Already Running!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    return;
+            //}
 
-                #endregion
+            #endregion
 
-                Application.Run(new frmProfileManager(Path.Combine(Path.GetDirectoryName(appPath), "DIDCOMMAgent.exe")));
+            AppContext appContext = new AppContext();
+            Application.Run(appContext);
+
+                //Application.Run(new frmProfileManager(Path.Combine(Path.GetDirectoryName(appPath), "DIDCOMMAgent.exe")));
             //}
             //catch (Exception ex)
             //{
             //    throw;
             //    MessageBox.Show("Error! " + ex.ToString() + "\r\n\r\nClick OK to quit the application.", "Error - Mesh App", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //}
+        }
+
+        public class AppContext : ApplicationContext
+        {
+            frmProfileManager frm1;
+            frmProfileManager frm2;
+
+
+            public AppContext()
+            {
+                frm1 = new frmProfileManager("");
+                frm2 = new frmProfileManager("");
+
+                frm2.Show();
+
+                frm1.StartPosition = FormStartPosition.Manual;
+                frm1.Left = frm2.Left - 500;
+                frm1.Top = frm2.Top;
+                frm1.Show();
+            }
         }
 
         public static bool FirewallEntryExists

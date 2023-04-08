@@ -17,8 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+using DIDCOMMAgent;
 using Mesh_Core;
-using Mesh_Core.DIDComm;
 using Mesh_Core.Network.SecureChannel;
 using Newtonsoft.Json;
 using System;

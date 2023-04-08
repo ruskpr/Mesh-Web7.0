@@ -13,6 +13,8 @@ struct DIDCOMMEncryptedMessage
 
 struct DIDCOMMMessage
 {
+	string senderUsername;
+	string recieverUsername;
 	DIDCOMMEncryptedMessage encryptedMessage; 
 }
 

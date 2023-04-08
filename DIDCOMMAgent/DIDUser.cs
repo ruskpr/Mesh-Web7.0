@@ -1,11 +1,10 @@
 ﻿
 
-using DIDCOMMAgent;
-using Google.Protobuf;
 using Newtonsoft.Json;
 using Okapi.Keys.V1;
+using System.IO;
 
-namespace Mesh_Core.DIDComm
+namespace DIDCOMMAgent
 {
     public class DIDUser : ISubject
     {
@@ -24,7 +23,6 @@ namespace Mesh_Core.DIDComm
         public JsonWebKey MsgSecretKey { get; set; }
         public string ProofPublicKey { get; set; }
         public string ProofSecretKey { get; set; }
-
 
         #endregion
 

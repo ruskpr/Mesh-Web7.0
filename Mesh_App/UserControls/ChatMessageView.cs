@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using DIDCOMMAgent;
-using Mesh_Core.DIDComm;
 using Mesh_Core.Message;
 using Mesh_Core.Network;
 using System;

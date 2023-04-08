@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using Mesh_App.UserControls;
 using Mesh_Core;
-using Mesh_Core.DIDComm;
+using DIDCOMMAgent;
 using Mesh_Core.Message;
 using Mesh_Core.Network;
 using Mesh_Core.Network.Connections;
@@ -123,7 +123,7 @@ namespace Mesh_App
             _networkStatusCheckTimer = new System.Windows.Forms.Timer();
             _networkStatusCheckTimer.Interval = 10000;
             _networkStatusCheckTimer.Tick += networkStatusCheckTimer_Tick;
-            _networkStatusCheckTimer.Start();
+            //_networkStatusCheckTimer.Start();
         }
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
