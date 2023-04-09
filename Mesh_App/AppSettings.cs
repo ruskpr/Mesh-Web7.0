@@ -6,7 +6,7 @@ namespace Mesh_App
     {
 
         // port that the didcomm agent will use to listen for incoming messages
-        public static int AgentPort
+        public static int DefaultAgentPort
         {
             get
             {
@@ -21,6 +21,8 @@ namespace Mesh_App
             }
         }
 
-        
+        public static string AgentURL { get { return $"http://localhost:{DefaultAgentPort}/DIDCOMMEndpoint/"; } }
+
+        public static string ProfileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Technitium", "Mesh"); 
     }
 }

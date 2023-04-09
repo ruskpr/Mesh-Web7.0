@@ -1423,51 +1423,6 @@ namespace Mesh_Core.Network
             });
         }
 
-        public DIDCOMMResponse[] SendTextMessage_DIDComm(string message, ISubject sender, List<ISubject> recipients)
-        {
-            DIDCOMMResponse response;
-            string agentUrl = "http://localhost:8081/DIDCOMMEndpoint/";
-
-            // send messages and return a response for each recipient
-            return DIDCOMMAgent.Message.Send(agentUrl, message, sender, recipients).ToArray();
-
-            //if (message.Length > MAX_MESSAGE_SIZE)
-            //    throw new IOException("MeshNetwork message data size cannot exceed " + MAX_MESSAGE_SIZE + " bytes.");
-
-            //string emJson = "{\"message\": " + "\""+ message + "\"}";
-            ////DIDCOMMResponse response = null;
-            //using (var httpClient = new HttpClient())
-            //{
-            //    Console.WriteLine($">>>Agent Url: {agentUrl}");
-            //    using (var requestMessage = new HttpRequestMessage(new HttpMethod("POST"), agentUrl))
-            //    {
-            //        requestMessage.Headers.TryAddWithoutValidation("Accept", "application/json");
-            //        Console.WriteLine($">>>Payload: {emJson}");
-            //        requestMessage.Content = new StringContent(emJson);
-            //        var task = httpClient.SendAsync(requestMessage);
-            //        task.Wait();
-            //        var result = task.Result;
-            //        string jsonResponse = result.Content.ReadAsStringAsync().Result;
-            //        response = JsonConvert.DeserializeObject<DIDCOMMResponse>(jsonResponse); 
-            //        Console.WriteLine($">>>Response: {jsonResponse}");
-            //    }
-            //}
-
-            //MessageRecipient[] msgRcpt = GetMessageRecipients();
-
-            //MessageItem msg = new MessageItem(DateTime.UtcNow, _userId, msgRcpt, MessageType.TextMessage, message, null, null, 0, null);
-            //msg.WriteTo(_store);
-
-            //ThreadPool.QueueUserWorkItem(delegate (object state)
-            //{
-            //    SendMessageBroadcast(msg.GetMeshNetworkPacket());
-
-            //    RaiseEventMessageReceived(_selfPeer, msg);
-            //});
-
-            //return response;
-        }
-
         public void SendInlineImage(string message, string filePath, byte[] imageThumbnail)
         {
             if (message.Length > MAX_MESSAGE_SIZE)

@@ -114,11 +114,16 @@ namespace Mesh_App
             frmProfileManager frm1;
             frmProfileManager frm2;
 
-
             public AppContext()
             {
-                frm1 = new frmProfileManager("");
-                frm2 = new frmProfileManager("");
+                // reset all did agent processes
+                var didAgentProcesses = Process.GetProcessesByName("DIDCOMMAgent");
+                if (didAgentProcesses.Length > 0)
+                    foreach (var process in didAgentProcesses)
+                        process.Kill();
+
+                frm1 = new frmProfileManager(8081, 8082);
+                frm2 = new frmProfileManager(8083, 8084);
 
                 frm2.Show();
 

@@ -63,7 +63,7 @@ namespace Mesh_App
             {
                 ProcessStartInfo startinfo = new ProcessStartInfo();
                 startinfo.FileName = $"DIDCOMMAgent.exe";
-                startinfo.Arguments = $"-p {AppSettings.AgentPort}";
+                startinfo.Arguments = $"-p {AppSettings.DefaultAgentPort}";
                 startinfo.UseShellExecute = true;
                 Program.AgentProcess = Process.Start(startinfo);
             }

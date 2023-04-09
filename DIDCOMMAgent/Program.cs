@@ -1,13 +1,18 @@
 ﻿using DIDCOMMAgent;
 using Google.Protobuf;
 using Newtonsoft.Json;
+using Okapi.Examples.V1;
 using Okapi.Keys.V1;
+using Okapi.Transport.V1;
+using Okapi.Transport;
 using Pbmse.V1;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using Trinity;
 
 namespace DIDCOMMAgent
@@ -58,13 +63,13 @@ namespace DIDCOMMAgent
 
                 response.rc = (int)Trinity.TrinityErrorCode.E_SUCCESS;
 
-                Program.MessagesReceived++;
-                Console.WriteLine("DIDCommEndpointHandler: "
-                    + DIDCommHelpers.DIDCommMessageRequestsSent.ToString() + " DIDComm sent. "
-                    + DIDCommHelpers.HttpMessagesSent.ToString() + " HTTP sent. "
-                    + Program.MessagesReceived.ToString() + " HTTP rcvd. "
-                    + Program.VCsProcessed.ToString() + " VCs proc.");
-        }
+                //Program.MessagesReceived++;
+                //Console.WriteLine("DIDCommEndpointHandler: "
+                //    + DIDCommHelpers.DIDCommMessageRequestsSent.ToString() + " DIDComm sent. "
+                //    + DIDCommHelpers.HttpMessagesSent.ToString() + " HTTP sent. "
+                //    + Program.MessagesReceived.ToString() + " HTTP rcvd. "
+                //    + Program.VCsProcessed.ToString() + " VCs proc.");
+            }
         }
 
         #endregion
@@ -76,32 +81,73 @@ namespace DIDCOMMAgent
 
         public static int MessagesReceived;
         public static int VCsProcessed;
+        public static bool Processing = true;
 
         #region main
 
         public static void Main(string[] args)
         {
-            Console.WindowWidth = 50;
+            //Console.WindowWidth = 50;
 
             // store subjects in memory for testing
-            GetSubjects();
+            InitSubjects();
 
-            //_didcommAgentPort = HandlePortArgs(args);
-
-            _didcommAgentPort = 8081; // TODO: remove this line after testing
+            _didcommAgentPort = HandlePortArgs(args);
             _userAgentPort = 8082;
-
             Trinity.TrinityConfig.HttpPort = _didcommAgentPort ?? throw new ArgumentNullException("No port was initialized, use '-p <port number>' to set your agent port");
 
             DIDCOMMAgent didAgent = new DIDCOMMAgent();
             didAgent.Start();
             Console.WriteLine($"DIDCOMM Agent started on port {_didcommAgentPort}...");
 
+            while (Processing)
+            {
+                foreach (var queue in Queues)
+                {
+                    string kid = queue.Key;
+                    ConcurrentQueue<EncryptedMessage> emessages = queue.Value;
+                    while (emessages.Count > 0)
+                    {
+                        EncryptedMessage emessage = new EncryptedMessage();
+                        bool dequeued = emessages.TryDequeue(out emessage);
+                        if (dequeued) ProcessEncryptedMessage(emessage);
+                    }
+                }
+
+                //Console.WriteLine("Processing: "
+                //    + DIDCommHelpers.DIDCommMessageRequestsSent.ToString() + " DIDComm sent. "
+                //    + DIDCommHelpers.HttpMessagesSent.ToString() + " HTTP sent. "
+                //    + Program.MessagesReceived.ToString() + " HTTP rcvd. "
+                //    + Program.VCsProcessed.ToString() + " VCs proc. (will be < total # messages sent/rcvd)");
+                //Thread.Sleep(100);
+            }
+
+
             Console.ReadLine();
             didAgent.Stop();
         }
 
-        private static void GetSubjects()
+        private static void ProcessEncryptedMessage(EncryptedMessage? encryptedMessage)
+        {
+            EncryptionRecipient r = new EncryptionRecipient();
+            r = encryptedMessage.Recipients.First<EncryptionRecipient>();
+            string kid = r.Header.KeyId;
+            string skid = r.Header.SenderKeyId;
+            Console.WriteLine("ProcessMessage:" + skid + " to\r\n" + kid);
+
+            var unpackResponse = DIDComm.Unpack(new UnpackRequest { Message = encryptedMessage, SenderKey = SubjectVault[skid].MsgPublicKey, ReceiverKey = SubjectVault[kid].MsgSecretKey });
+            var plaintext = unpackResponse.Plaintext;
+            CoreMessage core = new CoreMessage();
+            core.MergeFrom(plaintext);
+            BasicMessage basic = new BasicMessage();
+            basic.MergeFrom(core.Body);
+            Console.WriteLine("BasicMessage: " + core.Type + " " + basic.Text);
+
+            //ProcessVCTPSMessage(skid, kid, core.Type, basic.Text);
+        }
+
+        
+        private static void InitSubjects()
         {
             var subjectProfilePaths = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Technitium", "Mesh");
 
@@ -113,7 +159,7 @@ namespace DIDCOMMAgent
             foreach (var key in keys)
             {
                 var subject = JsonConvert.DeserializeObject<DIDUser>(File.ReadAllText(key));    
-                SubjectVault.Add(subject.Name, subject);
+                SubjectVault.Add(subject.DIDKey.KeyId, subject);
             }
         }
 

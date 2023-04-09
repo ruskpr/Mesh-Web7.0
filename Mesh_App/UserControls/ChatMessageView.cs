@@ -273,24 +273,23 @@ namespace Mesh_App.UserControls
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            var profileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Technitium", "Mesh");
-            var bobKeyPath = Path.Combine(profileFolder, "bob.key.json");
+            var bobKeyPath = Path.Combine(AppSettings.ProfileFolder, "bob.key.json");
             DIDUser bob = DIDUser.GetUser(bobKeyPath);
 
-            var aliceKeyPath = Path.Combine(profileFolder, "alice.key.json");
+            var aliceKeyPath = Path.Combine(AppSettings.ProfileFolder, "alice.key.json");
             DIDUser alice = DIDUser.GetUser(aliceKeyPath);
-            var recipients = new List<ISubject>();
-            recipients.Add(alice);
 
+
+            string agentUrl = $"http://localhost:{8081}/DIDCOMMEndpoint/";
             if (txtMessage.Text != "")
             {
-                var responses = _network.SendTextMessage_DIDComm(txtMessage.Text, bob, recipients);
-                txtMessage.Text = "";
+                var responses = DIDCOMMAgent.Message.Send(agentUrl, txtMessage.Text, bob, new List<ISubject>() { alice }).ToArray();
+                //txtMessage.Text = "";
                 txtMessage.Focus();
 
                 foreach (var res in responses)
                 {
-                    MessageBox.Show(res.message);
+                    MessageBox.Show("response code: " + res.rc.ToString());
                 }
             }
         }
