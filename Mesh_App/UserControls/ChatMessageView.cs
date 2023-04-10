@@ -74,7 +74,7 @@ namespace Mesh_App.UserControls
             {
                 try
                 {
-                    customListView1.ReplaceItems(ConvertToListViewItems(_network.GetLatestMessages(totalMessageCount, MESSAGE_COUNT_PER_SCROLL), true));
+                    //customListView1.ReplaceItems(ConvertToListViewItems(_network.GetLatestMessages(totalMessageCount, MESSAGE_COUNT_PER_SCROLL), true));
                     customListView1.ScrollToBottom();
                 }
                 catch
@@ -219,14 +219,45 @@ namespace Mesh_App.UserControls
                 //txtMessage.Text = "";
                 txtMessage.Focus();
 
-                responses.ForEach(r => _chatItem.SetLastMessage(r.rc.ToString(), DateTime.Now, false));
+                responses.ForEach(r => {
+                    MessageItem msg = new MessageItem($"response code: {r.rc}");
+                    ChatMessageTextItem textItem = new ChatMessageTextItem(null, msg);
 
-                MessageItem msg = new MessageItem("test");
-                ChatMessageTextItem textItem = new ChatMessageTextItem(null, msg);
+                    AddMessage(textItem, false);
+                });
 
-                AddMessage(textItem, true);
+                
             }
         }
+
+        private void AddMessage(CustomListViewItem item, bool selfSender)
+        {
+            CustomListViewItem lastItem = customListView1.GetLastItem();
+
+            bool insertDateInfo = false;
+            DateTime itemDate = (item as IChatMessageItem).Message.MessageDate;
+
+            if (lastItem == null)
+            {
+                insertDateInfo = true;
+            }
+            else
+            {
+                if (itemDate.Date > (lastItem as IChatMessageItem).Message.MessageDate.Date)
+                    insertDateInfo = true;
+            }
+
+            bool wasScrolledToBottom = customListView1.IsScrolledToBottom();
+
+            if (insertDateInfo)
+                customListView1.AddItem(new ChatMessageInfoItem(new MessageItem(DateTime.UtcNow)));
+
+            customListView1.AddItem(item);
+
+            if (_chatItem.Selected && (wasScrolledToBottom || selfSender))
+                customListView1.ScrollToBottom();
+        }
+
         #region UI code
 
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
@@ -517,33 +548,7 @@ namespace Mesh_App.UserControls
             }
         }
 
-        private void AddMessage(CustomListViewItem item, bool selfSender)
-        {
-            CustomListViewItem lastItem = customListView1.GetLastItem();
-
-            bool insertDateInfo = false;
-            DateTime itemDate = (item as IChatMessageItem).Message.MessageDate;
-
-            if (lastItem == null)
-            {
-                insertDateInfo = true;
-            }
-            else
-            {
-                if (itemDate.Date > (lastItem as IChatMessageItem).Message.MessageDate.Date)
-                    insertDateInfo = true;
-            }
-
-            bool wasScrolledToBottom = customListView1.IsScrolledToBottom();
-
-            if (insertDateInfo)
-                customListView1.AddItem(new ChatMessageInfoItem(new MessageItem(DateTime.UtcNow)));
-
-            customListView1.AddItem(item);
-
-            if (_chatItem.Selected && (wasScrolledToBottom || selfSender))
-                customListView1.ScrollToBottom();
-        }
+        
 
         #endregion
     }
