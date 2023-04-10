@@ -67,7 +67,7 @@ namespace Mesh_Core.Message
 
         #region constructor
 
-        internal MessageItem(string info)
+        public MessageItem(string info)
         {
             _messageNumber = -1;
 

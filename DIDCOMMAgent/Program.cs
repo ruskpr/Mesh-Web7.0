@@ -93,9 +93,9 @@ namespace DIDCOMMAgent
             InitSubjects();
 
             _didcommAgentPort = HandlePortArgs(args);
-            _userAgentPort = 8082;
+            //_userAgentPort = 8082;
+            //Trinity.TrinityConfig.LoadConfig();
             Trinity.TrinityConfig.HttpPort = _didcommAgentPort ?? throw new ArgumentNullException("No port was initialized, use '-p <port number>' to set your agent port");
-
             DIDCOMMAgent didAgent = new DIDCOMMAgent();
             didAgent.Start();
             Console.WriteLine($"DIDCOMM Agent started on port {_didcommAgentPort}...");

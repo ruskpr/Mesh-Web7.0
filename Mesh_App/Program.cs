@@ -122,14 +122,14 @@ namespace Mesh_App
                     foreach (var process in didAgentProcesses)
                         process.Kill();
 
-                frm1 = new frmProfileManager(8081, 8082);
-                frm2 = new frmProfileManager(8083, 8084);
+                frm1 = new frmProfileManager(8082, 8080);
+                //frm2 = new frmProfileManager(8087, 8085);
 
-                frm2.Show();
+                //frm2.Show();
 
                 frm1.StartPosition = FormStartPosition.Manual;
-                frm1.Left = frm2.Left - 500;
-                frm1.Top = frm2.Top;
+                //frm1.Left = frm2.Left - 500;
+                //frm1.Top = frm2.Top;
                 frm1.Show();
             }
         }

@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using static Mesh_Core.Network.MeshNetwork;
 
 namespace Mesh_App.UserControls
 {
@@ -179,6 +180,53 @@ namespace Mesh_App.UserControls
 
         #endregion
 
+        private void btnSend_Click(object sender, EventArgs e)
+        {           
+            ProcessMessage(txtMessage.Text);
+        }
+
+        Queue<string> messageQueue = new Queue<string>();
+        bool isSending = false;
+        private void ProcessMessage(string msg)
+        {
+            messageQueue.Enqueue(msg);
+
+            if (isSending) return;
+
+            Task.Factory.StartNew(() =>
+            {
+                while (messageQueue.Count > 0)
+                {
+                    this.Invoke(() => SendDIDCommMessage(messageQueue.Dequeue()));
+                }
+                isSending = false;
+            });
+
+        }
+
+        private void SendDIDCommMessage(string plaintext)
+        {
+            var bobKeyPath = Path.Combine(AppSettings.ProfileFolder, "bob.key.json");
+            DIDUser bob = DIDUser.GetUser(bobKeyPath);
+
+            var aliceKeyPath = Path.Combine(AppSettings.ProfileFolder, "alice.key.json");
+            DIDUser alice = DIDUser.GetUser(aliceKeyPath);
+
+            string agentUrl = $"http://localhost:{8082}/DIDCOMMEndpoint/";
+            if (txtMessage.Text != "")
+            {
+                var responses = DIDCOMMAgent.Message.Send(agentUrl, plaintext, bob, new List<ISubject>() { alice }).ToList();
+                //txtMessage.Text = "";
+                txtMessage.Focus();
+
+                responses.ForEach(r => _chatItem.SetLastMessage(r.rc.ToString(), DateTime.Now, false));
+
+                MessageItem msg = new MessageItem("test");
+                ChatMessageTextItem textItem = new ChatMessageTextItem(null, msg);
+
+                AddMessage(textItem, true);
+            }
+        }
         #region UI code
 
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
@@ -254,42 +302,6 @@ namespace Mesh_App.UserControls
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
-                }
-            }
-        }
-
-        //private void btnSend_Click(object sender, EventArgs e)
-        //{
-
-        //    if (txtMessage.Text != "")
-        //    {
-
-        //        _network.SendTextMessage(txtMessage.Text);
-
-        //        txtMessage.Text = "";
-        //        txtMessage.Focus();
-        //    }
-        //}
-
-        private void btnSend_Click(object sender, EventArgs e)
-        {
-            var bobKeyPath = Path.Combine(AppSettings.ProfileFolder, "bob.key.json");
-            DIDUser bob = DIDUser.GetUser(bobKeyPath);
-
-            var aliceKeyPath = Path.Combine(AppSettings.ProfileFolder, "alice.key.json");
-            DIDUser alice = DIDUser.GetUser(aliceKeyPath);
-
-
-            string agentUrl = $"http://localhost:{8081}/DIDCOMMEndpoint/";
-            if (txtMessage.Text != "")
-            {
-                var responses = DIDCOMMAgent.Message.Send(agentUrl, txtMessage.Text, bob, new List<ISubject>() { alice }).ToArray();
-                //txtMessage.Text = "";
-                txtMessage.Focus();
-
-                foreach (var res in responses)
-                {
-                    MessageBox.Show("response code: " + res.rc.ToString());
                 }
             }
         }

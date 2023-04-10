@@ -68,7 +68,7 @@ namespace Mesh_App.UserControls
 
             if (_senderPeer == null)
             {
-                lblUsername.Text = _message.SenderUserId.ToString();
+                lblUsername.Text = new Guid().ToString();
             }
             else
             {
