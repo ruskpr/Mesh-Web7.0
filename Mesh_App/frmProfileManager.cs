@@ -47,7 +47,7 @@ namespace Mesh_App
 
         #region constructor
 
-        public frmProfileManager(int didcommAgentPort, int userAgentPort)
+        public frmProfileManager(int didcommAgentPort, int userAgentPort, int? serverPort = null)
         {
             InitializeComponent();
             AppSettings.DefaultAgentPort = didcommAgentPort;
@@ -58,7 +58,9 @@ namespace Mesh_App
             //start didcomm agent
             ProcessStartInfo startinfo = new ProcessStartInfo();
             startinfo.FileName = $"DIDCOMMAgent.exe";
-            startinfo.Arguments = $"-p {didcommAgentPort}";
+            startinfo.Arguments = $"-p {didcommAgentPort} ";
+            if (serverPort != null)
+                startinfo.Arguments += serverPort.ToString();
             startinfo.UseShellExecute = true;
             Program.AgentProcess = Process.Start(startinfo);
 

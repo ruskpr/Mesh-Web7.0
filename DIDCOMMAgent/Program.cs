@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Trinity;
+using System.Threading.Tasks;
 
 namespace DIDCOMMAgent
 {
@@ -87,14 +88,17 @@ namespace DIDCOMMAgent
 
         public static void Main(string[] args)
         {
-            //Console.WindowWidth = 50;
-
             // store subjects in memory for testing
             InitSubjects();
 
-            _didcommAgentPort = HandlePortArgs(args);
+            _didcommAgentPort = HandleAgentPortArgs(args);
             //_userAgentPort = 8082;
-            //Trinity.TrinityConfig.LoadConfig();
+
+#pragma warning disable CS0612 // Type or member is obsolete
+            if (args.Length == 3) 
+                TrinityConfig.ServerPort = HandleServerPortArgs(args);
+#pragma warning restore CS0612 // Type or member is obsolete
+
             Trinity.TrinityConfig.HttpPort = _didcommAgentPort ?? throw new ArgumentNullException("No port was initialized, use '-p <port number>' to set your agent port");
             DIDCOMMAgent didAgent = new DIDCOMMAgent();
             didAgent.Start();
@@ -125,6 +129,20 @@ namespace DIDCOMMAgent
 
             Console.ReadLine();
             didAgent.Stop();
+        }
+
+        private static int HandleServerPortArgs(string[] args)
+        {
+            if (args.Length == 3)
+            {
+                try
+                {
+                    return Convert.ToInt32(args[2]);
+                }
+                catch { return 5304; }
+            }
+
+            return 5304;
         }
 
         private static void ProcessEncryptedMessage(EncryptedMessage? encryptedMessage)
@@ -165,7 +183,7 @@ namespace DIDCOMMAgent
 
         #endregion
 
-        private static int? HandlePortArgs(string[] args)
+        private static int? HandleAgentPortArgs(string[] args)
         {
             for (int i = 0; i < args.Length; i++)
             {
