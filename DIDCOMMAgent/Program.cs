@@ -117,13 +117,6 @@ namespace DIDCOMMAgent
                         if (dequeued) ProcessEncryptedMessage(emessage);
                     }
                 }
-
-                //Console.WriteLine("Processing: "
-                //    + DIDCommHelpers.DIDCommMessageRequestsSent.ToString() + " DIDComm sent. "
-                //    + DIDCommHelpers.HttpMessagesSent.ToString() + " HTTP sent. "
-                //    + Program.MessagesReceived.ToString() + " HTTP rcvd. "
-                //    + Program.VCsProcessed.ToString() + " VCs proc. (will be < total # messages sent/rcvd)");
-                //Thread.Sleep(100);
             }
 
 
@@ -131,21 +124,9 @@ namespace DIDCOMMAgent
             didAgent.Stop();
         }
 
-        private static int HandleServerPortArgs(string[] args)
-        {
-            if (args.Length == 3)
-            {
-                try
-                {
-                    return Convert.ToInt32(args[2]);
-                }
-                catch { return 5304; }
-            }
+        
 
-            return 5304;
-        }
-
-        private static void ProcessEncryptedMessage(EncryptedMessage? encryptedMessage)
+        private static void ProcessEncryptedMessage(EncryptedMessage encryptedMessage)
         {
             EncryptionRecipient r = new EncryptionRecipient();
             r = encryptedMessage.Recipients.First<EncryptionRecipient>();
@@ -203,5 +184,18 @@ namespace DIDCOMMAgent
             return null;
         }
 
+        private static int HandleServerPortArgs(string[] args)
+        {
+            if (args.Length == 3)
+            {
+                try
+                {
+                    return Convert.ToInt32(args[2]);
+                }
+                catch { return 5304; }
+            }
+
+            return 5304;
+        }
     }
 }
