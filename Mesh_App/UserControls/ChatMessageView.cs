@@ -95,7 +95,8 @@ namespace Mesh_App.UserControls
                     break;
 
                 case MessageType.TextMessage:
-                    ChatMessageTextItem textItem = new ChatMessageTextItem(peer, message);
+                    //ChatMessageTextItem textItem = new ChatMessageTextItem(peer, message);
+                    ChatMessageTextItem textItem = new ChatMessageTextItem(message, true, "bob");
                     textItem.ForwardTo += MessageItem_ForwardTo;
 
                     AddMessage(textItem, peer.IsSelfPeer);
@@ -221,9 +222,9 @@ namespace Mesh_App.UserControls
 
                 responses.ToList().ForEach(r => {
                     MessageItem msg = new MessageItem($"response code: {r.rc}");
-                    ChatMessageTextItem textItem = new ChatMessageTextItem(null, msg);
+                    ChatMessageTextItem textItem = new ChatMessageTextItem(msg, true, "bob");
 
-                    AddMessage(textItem, false);
+                    AddMessage(textItem, true);
                 });
 
                 

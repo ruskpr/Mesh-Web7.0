@@ -41,6 +41,82 @@ namespace Mesh_App.UserControls
         #endregion
 
         #region constructor
+        public ChatMessageTextItem(MessageItem message, bool selfSender, string name)
+        {
+            InitializeComponent();
+
+            this.SuspendLayout();
+
+            //_senderPeer = senderPeer;
+            _message = message;
+
+            lblMessage.Text = _message.MessageText;
+
+            TimeSpan span = DateTime.UtcNow.Date - _message.MessageDate.Date;
+
+            if (span.TotalDays >= 7)
+                lblDateTime.Text = _message.MessageDate.ToLocalTime().ToString();
+            else if (span.TotalDays >= 2)
+                lblDateTime.Text = _message.MessageDate.ToLocalTime().DayOfWeek.ToString() + " " + _message.MessageDate.ToLocalTime().ToShortTimeString();
+            else if (span.TotalDays >= 1)
+                lblDateTime.Text = "Yesterday " + _message.MessageDate.ToLocalTime().ToShortTimeString();
+            else
+                lblDateTime.Text = _message.MessageDate.ToLocalTime().ToShortTimeString();
+
+            toolTip1.SetToolTip(lblDateTime, _message.MessageDate.ToLocalTime().ToString());
+
+            lblUsername.Text = name;
+
+            if (selfSender)
+            {
+                lblUsername.ForeColor = Color.FromArgb(63, 186, 228);
+                picPointLeft.Visible = false;
+                picPointRight.Visible = true;
+                mnuMessageInfo.Visible = true;
+                pnlBubble.Left = picPointRight.Left - pnlBubble.Width;
+                pnlBubble.Anchor = AnchorStyles.Right;
+                switch (_message.GetDeliveryStatus())
+                {
+                    case MessageDeliveryStatus.Undelivered:
+                        if (_senderPeer.Network.Type == MeshNetworkType.Private)
+                        {
+                            picDeliveryStatus.Image = Properties.Resources.waiting;
+                        }
+                        else
+                        {
+                            if ((_message.Recipients.Length > 0) && ((DateTime.UtcNow - _message.MessageDate).TotalSeconds < 10))
+                            {
+                                picDeliveryStatus.Image = Properties.Resources.waiting;
+                                timer1.Start();
+                            }
+                            else
+                            {
+                                picDeliveryStatus.Image = Properties.Resources.message_failed;
+                            }
+                        }
+
+                        break;
+
+                    case MessageDeliveryStatus.PartiallyDelivered:
+                        picDeliveryStatus.Image = Properties.Resources.single_tick;
+                        break;
+
+                    case MessageDeliveryStatus.Delivered:
+                        picDeliveryStatus.Image = Properties.Resources.double_ticks;
+                        break;
+
+                    default:
+                        picDeliveryStatus.Image = null;
+                        break;
+                }
+
+                picDeliveryStatus.Visible = (picDeliveryStatus.Image != null);
+            }
+
+            this.ResumeLayout();
+
+            ResizeByTextSize();
+        }
 
         public ChatMessageTextItem(MeshNetwork.Peer senderPeer, MessageItem message)
         {

@@ -123,14 +123,20 @@ namespace Mesh_App
                         process.Kill();
 
                 frm1 = new frmProfileManager(8082, 8080);
-                frm2 = new frmProfileManager(8087, 8085, 5305);
-
-                frm2.Show();
-
-                frm1.StartPosition = FormStartPosition.Manual;
-                frm1.Left = frm2.Left - 500;
-                frm1.Top = frm2.Top;
                 frm1.Show();
+
+
+                // show second form for testing
+                if (true)
+                {
+                    frm2 = new frmProfileManager(8087, 8085, 3505);
+                    frm2.StartPosition = FormStartPosition.Manual;
+                    frm2.Left = frm2.Left - 500;
+                    frm2.Top = frm2.Top;
+                    frm2.Show();
+                }
+
+                
             }
         }
 
