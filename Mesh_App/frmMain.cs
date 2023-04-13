@@ -43,7 +43,6 @@ namespace Mesh_App
         readonly bool _isPortableApp;
         readonly MeshUpdate _meshUpdate;
         readonly frmProfileManager _profileManager;
-        readonly frmProfileManager_DID _profileManager_DID;
 
         readonly SoundPlayer _sndMessageNotification = new SoundPlayer(Properties.Resources.MessageNotification);
 

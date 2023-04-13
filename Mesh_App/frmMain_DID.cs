@@ -43,7 +43,6 @@ namespace Mesh_App
         readonly bool _isPortableApp;
         readonly MeshUpdate _meshUpdate;
         readonly frmProfileManager _profileManager;
-        readonly frmProfileManager_DID _profileManager_DID;
 
         readonly SoundPlayer _sndMessageNotification = new SoundPlayer(Properties.Resources.MessageNotification);
 
@@ -59,26 +58,6 @@ namespace Mesh_App
         #region constructor
         // MeshUpdate meshUpdate,
        
-        public frmMain_DID(DIDUser didUser, bool isPortableApp, frmProfileManager_DID profileManager)
-        {
-            InitializeComponent();
-
-            DIDUser = didUser;
-            //_node = node;
-            //_profileFilePath = profileFilePath;
-            _isPortableApp = isPortableApp;
-            //_meshUpdate = meshUpdate;
-            _profileManager_DID = profileManager;
-
-            //_node.InvitationReceived += MeshNode_InvitationReceived;
-
-            //if (_node.Type == MeshNodeType.Anonymous)
-            //    this.Text += " [Anonymous]";
-
-            //_meshUpdate.UpdateAvailable += meshUpdate_UpdateAvailable;
-            //_meshUpdate.NoUpdateAvailable += meshUpdate_NoUpdateAvailable;
-            //_meshUpdate.UpdateCheckFailed += meshUpdate_UpdateCheckFailed;
-        }
         
 
         #endregion
@@ -151,8 +130,6 @@ namespace Mesh_App
 
             _networkStatusCheckTimer.Dispose();
             _node.Dispose();
-
-            _profileManager_DID.UnloadProfileMainForm(this);
 
             StopDebugging();
         }

@@ -17,14 +17,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+using DIDCOMMAgent;
+using Google.Protobuf;
+using Pbmse.V1;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using TechnitiumLibrary.Net.Firewall;
+using Trinity;
 
 namespace Mesh_App
 {
+    public class DIDCOMMUserAgent : DIDCOMMAgentBase
+    {
+        public delegate void MessageReceived (DIDCOMMMessage message);
+        public event MessageReceived? OnMessageReceived;
+
+        public override void DIDCOMMEndpointHandler(DIDCOMMMessage request, out DIDCOMMResponse response)
+        {
+            OnMessageReceived?.Invoke(request);
+            Console.WriteLine("Message received: " + request.ToString());
+            response.rc = (int)Trinity.TrinityErrorCode.E_SUCCESS;
+        }
+    }
+
     internal static class Program
     {
         #region variables
@@ -37,19 +55,20 @@ namespace Mesh_App
         static bool _firewallEntryExists;
         static Mutex _app;
 
-        public static Process? AgentProcess;
         #endregion
 
         #region main
+       
 
         [STAThread]
         public static void Main(string[] args)
         {
-            //try
-            //{
+            Trinity.TrinityConfig.HttpPort = 8082;
+            DIDCOMMUserAgent userAgent = new DIDCOMMUserAgent();
+            userAgent.Start();
 
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
             #region check windows firewall entry
 
@@ -98,15 +117,7 @@ namespace Mesh_App
             #endregion
 
             AppContext appContext = new AppContext();
-            Application.Run(appContext);
-
-                //Application.Run(new frmProfileManager(Path.Combine(Path.GetDirectoryName(appPath), "DIDCOMMAgent.exe")));
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw;
-            //    MessageBox.Show("Error! " + ex.ToString() + "\r\n\r\nClick OK to quit the application.", "Error - Mesh App", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+            Application.Run(appContext);                       
         }
 
         public class AppContext : ApplicationContext
@@ -122,12 +133,18 @@ namespace Mesh_App
                     foreach (var process in didAgentProcesses)
                         process.Kill();
 
-                frm1 = new frmProfileManager(8082, 8080);
+                // start didcomm agent
+                ProcessStartInfo startinfo = new ProcessStartInfo();
+                startinfo.FileName = $"DIDCOMMAgent.exe";
+                startinfo.Arguments = $"-p {8080} 5306";
+                startinfo.UseShellExecute = true;
+                Process.Start(startinfo);
+
+                frm1 = new frmProfileManager(8080, 8082, 5306);
                 frm1.Show();
 
-
                 // show second form for testing
-                if (true)
+                if (false)
                 {
                     frm2 = new frmProfileManager(8087, 8085, 3505);
                     frm2.StartPosition = FormStartPosition.Manual;
