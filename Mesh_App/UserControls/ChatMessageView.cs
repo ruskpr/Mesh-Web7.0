@@ -213,21 +213,17 @@ namespace Mesh_App.UserControls
             var aliceKeyPath = Path.Combine(AppSettings.ProfileFolder, "alice.key.json");
             DIDUser alice = DIDUser.GetUser(aliceKeyPath);
 
-            string agentUrl = $"http://localhost:{8082}/DIDCOMMEndpoint/";
+            string agentUrl = $"http://localhost:{8080}/DIDCOMMEndpoint/";
             if (txtMessage.Text != "")
             {
-                var responses = await DIDCOMMAgent.Message.Send(agentUrl, plaintext, bob, new List<ISubject>() { alice });
+                var response = await DIDCOMMAgent.Message.EncryptAndSend(agentUrl, plaintext, bob, alice);
                 //txtMessage.Text = "";
                 txtMessage.Focus();
 
-                responses.ToList().ForEach(r => {
-                    MessageItem msg = new MessageItem($"response code: {r.rc}");
-                    ChatMessageTextItem textItem = new ChatMessageTextItem(msg, true, "bob");
+                MessageItem msg = new MessageItem($"response code: {response.rc}");
+                ChatMessageTextItem textItem = new ChatMessageTextItem(msg, true, "bob");
 
-                    AddMessage(textItem, true);
-                });
-
-                
+                AddMessage(textItem, true);
             }
         }
 
