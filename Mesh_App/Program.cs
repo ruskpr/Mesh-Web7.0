@@ -51,7 +51,7 @@ namespace Mesh_App
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                #region check windows firewall entry
+            #region check windows firewall entry
 
                 string appPath = Assembly.GetEntryAssembly().Location;
                 _firewallEntryExists = WindowsFirewallEntryExists(appPath);
@@ -123,7 +123,7 @@ namespace Mesh_App
                         process.Kill();
 
                 frm1 = new frmProfileManager(8082, 8080);
-                frm2 = new frmProfileManager(8087, 8085, 5306);
+                frm2 = new frmProfileManager(8087, 8085, 5305);
 
                 frm2.Show();
 
