@@ -185,26 +185,26 @@ namespace Mesh_App.UserControls
             ProcessMessage(txtMessage.Text);
         }
 
-        Queue<string> messageQueue = new Queue<string>();
+        Queue<string> sendQueue = new Queue<string>();
         bool isSending = false;
         private void ProcessMessage(string msg)
         {
-            messageQueue.Enqueue(msg);
+            sendQueue.Enqueue(msg);
 
             if (isSending) return;
 
             Task.Factory.StartNew(() =>
             {
-                while (messageQueue.Count > 0)
+                while (sendQueue.Count > 0)
                 {
-                    this.Invoke(() => SendDIDCommMessage(messageQueue.Dequeue()));
+                    this.Invoke(() => SendDIDCommMessage(sendQueue.Dequeue()));
                 }
                 isSending = false;
             });
 
         }
 
-        private void SendDIDCommMessage(string plaintext)
+        private async void SendDIDCommMessage(string plaintext)
         {
             var bobKeyPath = Path.Combine(AppSettings.ProfileFolder, "bob.key.json");
             DIDUser bob = DIDUser.GetUser(bobKeyPath);
@@ -215,11 +215,11 @@ namespace Mesh_App.UserControls
             string agentUrl = $"http://localhost:{8082}/DIDCOMMEndpoint/";
             if (txtMessage.Text != "")
             {
-                var responses = DIDCOMMAgent.Message.Send(agentUrl, plaintext, bob, new List<ISubject>() { alice }).ToList();
+                var responses = await DIDCOMMAgent.Message.Send(agentUrl, plaintext, bob, new List<ISubject>() { alice });
                 //txtMessage.Text = "";
                 txtMessage.Focus();
 
-                responses.ForEach(r => {
+                responses.ToList().ForEach(r => {
                     MessageItem msg = new MessageItem($"response code: {r.rc}");
                     ChatMessageTextItem textItem = new ChatMessageTextItem(null, msg);
 

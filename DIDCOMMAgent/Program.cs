@@ -95,8 +95,8 @@ namespace DIDCOMMAgent
             //_userAgentPort = 8082;
 
 #pragma warning disable CS0612 // Type or member is obsolete
-            if (args.Length == 3) 
-                TrinityConfig.ServerPort = HandleServerPortArgs(args);
+            //if (args.Length == 3) 
+            //    TrinityConfig.ServerPort = HandleServerPortArgs(args);
 #pragma warning restore CS0612 // Type or member is obsolete
 
             Trinity.TrinityConfig.HttpPort = _didcommAgentPort ?? throw new ArgumentNullException("No port was initialized, use '-p <port number>' to set your agent port");
@@ -119,12 +119,9 @@ namespace DIDCOMMAgent
                 }
             }
 
-
             Console.ReadLine();
             didAgent.Stop();
-        }
-
-        
+        }       
 
         private static void ProcessEncryptedMessage(EncryptedMessage encryptedMessage)
         {
@@ -146,6 +143,9 @@ namespace DIDCOMMAgent
         }
 
         
+
+        #endregion
+
         private static void InitSubjects()
         {
             var subjectProfilePaths = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Technitium", "Mesh");
@@ -162,16 +162,13 @@ namespace DIDCOMMAgent
             }
         }
 
-        #endregion
-
         private static int? HandleAgentPortArgs(string[] args)
         {
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i] == "-p")
                 {
-                    int port;
-                    if (int.TryParse(args[i + 1], out port))
+                    if (int.TryParse(args[i + 1], out int port))
                     {
                         return port;
                     }

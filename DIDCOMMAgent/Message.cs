@@ -10,6 +10,7 @@ using Okapi.Examples.V1;
 using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace DIDCOMMAgent
 {
@@ -109,7 +110,7 @@ namespace DIDCOMMAgent
         /// Returns a collection of HTTP status codes for each message sent.
         ///
         /// </summary>
-        public static IEnumerable<DIDCOMMResponse> Send(string endpointUrl, string plaintextMsg, ISubject sender, List<ISubject> recipients)
+        public static async Task<IEnumerable<DIDCOMMResponse>> Send(string endpointUrl, string plaintextMsg, ISubject sender, List<ISubject> recipients)
         {
             var responses = new List<DIDCOMMResponse>();
 
@@ -151,10 +152,8 @@ namespace DIDCOMMAgent
                     {
                         requestMessage.Headers.TryAddWithoutValidation("Accept", "application/json");
                         requestMessage.Content = new StringContent(emJson);
-                        var task = httpClient.SendAsync(requestMessage);
-                        task.Wait();
-                        HttpResponseMessage result = task.Result;
-                        string jsonResponse = result.Content.ReadAsStringAsync().Result;
+                        var task = await httpClient.SendAsync(requestMessage);
+                        string jsonResponse = task.Content.ReadAsStringAsync().Result;
                         DIDCOMMResponse res = JsonConvert.DeserializeObject<DIDCOMMResponse>(jsonResponse);
                         responses.Add(res);
                     }

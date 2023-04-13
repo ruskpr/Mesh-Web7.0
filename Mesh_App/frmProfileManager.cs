@@ -20,13 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using Mesh_Core;
 using DIDCOMMAgent;
 using Mesh_Core.Network.SecureChannel;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Windows.Forms;
-using TechnitiumLibrary.Net.Tor;
 
 namespace Mesh_App
 {
