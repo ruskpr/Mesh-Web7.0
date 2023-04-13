@@ -95,8 +95,8 @@ namespace DIDCOMMAgent
             //_userAgentPort = 8082;
 
 #pragma warning disable CS0612 // Type or member is obsolete
-            //if (args.Length == 3) 
-            //    TrinityConfig.ServerPort = HandleServerPortArgs(args);
+            if (args.Length == 3)
+                TrinityConfig.ServerPort = HandleServerPortArgs(args);
 #pragma warning restore CS0612 // Type or member is obsolete
 
             Trinity.TrinityConfig.HttpPort = _didcommAgentPort ?? throw new ArgumentNullException("No port was initialized, use '-p <port number>' to set your agent port");
