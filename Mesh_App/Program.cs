@@ -17,22 +17,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using DIDCOMMAgent;
-using Google.Protobuf;
-using Pbmse.V1;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using TechnitiumLibrary.Net.Firewall;
-using Trinity;
+using Trinity.Diagnostics;
+using Trinity.Network;
 
 namespace Mesh_App
 {
+
     public class DIDCOMMUserAgent : DIDCOMMAgentBase
     {
-        public delegate void MessageReceived (DIDCOMMMessage message);
+        public delegate void MessageReceived(DIDCOMMMessage message);
         public event MessageReceived? OnMessageReceived;
 
         public override void DIDCOMMEndpointHandler(DIDCOMMMessage request, out DIDCOMMResponse response)
@@ -56,13 +54,13 @@ namespace Mesh_App
         static Mutex _app;
 
         #endregion
-
+        
         #region main
        
-
         [STAThread]
         public static void Main(string[] args)
         {
+            Trinity.TrinityConfig.ServerPort = 5401;
             Trinity.TrinityConfig.HttpPort = 8082;
             DIDCOMMUserAgent userAgent = new DIDCOMMUserAgent();
             userAgent.Start();
@@ -133,12 +131,13 @@ namespace Mesh_App
                     foreach (var process in didAgentProcesses)
                         process.Kill();
 
-                // start didcomm agent
-                ProcessStartInfo startinfo = new ProcessStartInfo();
-                startinfo.FileName = $"DIDCOMMAgent.exe";
-                startinfo.Arguments = $"-p {8080} 5306";
-                startinfo.UseShellExecute = true;
-                Process.Start(startinfo);
+                //// start didcomm agent
+                //Process p = new Process();
+                //p.StartInfo.FileName = $"DIDCOMMAgent.exe";
+                //p.StartInfo.Arguments = $"-p {8080}";
+                //p.StartInfo.UseShellExecute = true;
+                //p.StartInfo.Verb = "runas";
+                //p.Start();
 
                 frm1 = new frmProfileManager(8080, 8082, 5306);
                 frm1.Show();
@@ -152,7 +151,6 @@ namespace Mesh_App
                     frm2.Top = frm2.Top;
                     frm2.Show();
                 }
-
                 
             }
         }

@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="DIDCOMMAgent.tsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GraphEngine.Core" Version="3.0.11856" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DIDCOMMAgent\DIDCOMMAgent.csproj" />
     <ProjectReference Include="..\Mesh_Core\Mesh_Core.csproj" />
   </ItemGroup>
@@ -38,6 +46,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TslCodegen Include="DIDCOMMAgent.tsl" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,9 +75,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="frmImportPEM.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="frmMain_DID.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="frmMain.cs">

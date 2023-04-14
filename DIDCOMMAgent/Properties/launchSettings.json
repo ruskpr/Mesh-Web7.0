@@ -2,7 +2,7 @@
   "profiles": {
     "DIDCOMMAgent": {
       "commandName": "Project",
-      "commandLineArgs": "-p 8087 5306"
+      "commandLineArgs": "-p 8080 55551"
     }
   }
 }

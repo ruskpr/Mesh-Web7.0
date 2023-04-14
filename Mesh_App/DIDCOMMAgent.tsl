@@ -1,0 +1,34 @@
+Cell struct DIDCOMMEncryptedMessage_Cell
+{
+	DIDCOMMEncryptedMessage em;
+}
+
+struct DIDCOMMEncryptedMessage
+{
+	string lv64;
+	string ciphertext64;
+	string tag64;
+	List<string> recipients64;
+}
+
+struct DIDCOMMMessage
+{
+	DIDCOMMEncryptedMessage encryptedMessage; 
+}
+
+struct DIDCOMMResponse
+{
+	long rc;
+}
+
+protocol DIDCOMMEndpoint
+{
+	Type: HTTP;
+	Request: DIDCOMMMessage;
+	Response: DIDCOMMResponse;
+}
+
+server DIDCOMMAgent
+{
+	protocol DIDCOMMEndpoint;
+}

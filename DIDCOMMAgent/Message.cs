@@ -110,7 +110,7 @@ namespace DIDCOMMAgent
         /// Returns a collection of HTTP status codes for each message sent.
         ///
         /// </summary>
-        public static async Task<IEnumerable<DIDCOMMResponse>> Send(string endpointUrl, string plaintextMsg, ISubject sender, List<ISubject> recipients)
+        public static async Task<IEnumerable<DIDCOMMResponse>> SendToMultiple(string endpointUrl, string plaintextMsg, ISubject sender, List<ISubject> recipients)
         {
             var responses = new List<DIDCOMMResponse>();
 
@@ -162,6 +162,62 @@ namespace DIDCOMMAgent
 
             return responses;
         }
+
+        public static async Task<DIDCOMMResponse> EncryptAndSend(string endpointUrl, string plaintextMsg, ISubject sender, ISubject receiver)
+        {
+            // get the recipient key and create the core message
+            string[] recipientKeys = new string[] { receiver.DIDKey.KeyId };
+            CoreMessage coreMessage = CreateCoreMessage(sender.DIDKey.KeyId, recipientKeys, plaintextMsg);
+
+            // pack the message
+            PackResponse encryptedPackage = DIDComm.Pack(new PackRequest
+            {
+                Plaintext = coreMessage.ToByteString(),
+                SenderKey = sender.MsgSecretKey,
+                ReceiverKey = receiver.MsgSecretKey,
+                Mode = EncryptionMode.Direct
+            });
+
+            // convert packed message to DIDCOMM encrypted message
+            EncryptedMessage emessage = encryptedPackage.Message;
+
+            DIDCOMMEncryptedMessage em = new DIDCOMMEncryptedMessage(
+                emessage.Iv.ToBase64(),
+                emessage.Ciphertext.ToBase64(),
+                emessage.Tag.ToBase64(),
+                recipients64: new List<string>() {
+                        emessage.Recipients[0].ToByteString().ToBase64()
+                });
+
+            // convert DIDCOMM message to json
+            DIDCOMMMessage didcommMsg = new DIDCOMMMessage(em);
+            string emJson = didcommMsg.ToString();
+
+            // send message to endpoint
+            try 
+            { 
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    using (HttpRequestMessage requestMessage = new HttpRequestMessage(new HttpMethod("POST"), endpointUrl))
+                    {
+                        requestMessage.Headers.TryAddWithoutValidation("Accept", "application/json");
+                        requestMessage.Content = new StringContent(emJson);
+                        var task = await httpClient.SendAsync(requestMessage);
+                        string jsonResponse = task.Content.ReadAsStringAsync().Result;
+                        DIDCOMMResponse response = JsonConvert.DeserializeObject<DIDCOMMResponse>(jsonResponse);
+                        return response;
+                    }
+                }
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR: " + ex.Message);
+                return new DIDCOMMResponse() { rc = 500 };
+            }
+
+        }
+
+        
 
     }
 }

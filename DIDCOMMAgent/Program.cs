@@ -15,6 +15,8 @@ using System.Linq;
 using System.Threading;
 using Trinity;
 using System.Threading.Tasks;
+using Trinity.Diagnostics;
+using Trinity.Network;
 
 namespace DIDCOMMAgent
 {
@@ -92,7 +94,7 @@ namespace DIDCOMMAgent
             InitSubjects();
 
             _didcommAgentPort = HandleAgentPortArgs(args);
-            //_userAgentPort = 8082;
+            _userAgentPort = 8082;
 
 #pragma warning disable CS0612 // Type or member is obsolete
             if (args.Length == 3)
@@ -139,10 +141,17 @@ namespace DIDCOMMAgent
             basic.MergeFrom(core.Body);
             Console.WriteLine("BasicMessage: " + core.Type + " " + basic.Text);
 
+            var endpoint = $"http://localhost/DIDCOMMEndpoint:{_userAgentPort}";
+            Console.WriteLine("sending to " + endpoint);
+            var task = Task.Run(() => Message.EncryptAndSend(endpoint, basic.Text, SubjectVault[skid], SubjectVault[kid]));
+            task.Wait();
+            Console.WriteLine($"response code: {task.Result.rc}");
+
+
             //ProcessVCTPSMessage(skid, kid, core.Type, basic.Text);
         }
 
-        
+
 
         #endregion
 

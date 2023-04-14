@@ -26,6 +26,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using static Mesh_Core.Network.MeshNetwork;
+using Message = DIDCOMMAgent.Message;
 
 namespace Mesh_App.UserControls
 {
@@ -207,16 +208,18 @@ namespace Mesh_App.UserControls
 
         private async void SendDIDCommMessage(string plaintext)
         {
-            var bobKeyPath = Path.Combine(AppSettings.ProfileFolder, "bob.key.json");
+            string profileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Technitium", "Mesh");
+
+            var bobKeyPath = Path.Combine(profileFolder, "bob.key.json");
             DIDUser bob = DIDUser.GetUser(bobKeyPath);
 
-            var aliceKeyPath = Path.Combine(AppSettings.ProfileFolder, "alice.key.json");
+            var aliceKeyPath = Path.Combine(profileFolder, "alice.key.json");
             DIDUser alice = DIDUser.GetUser(aliceKeyPath);
 
             string agentUrl = $"http://localhost:{8080}/DIDCOMMEndpoint/";
             if (txtMessage.Text != "")
             {
-                var response = await DIDCOMMAgent.Message.EncryptAndSend(agentUrl, plaintext, bob, alice);
+                var response = await Message.EncryptAndSend(agentUrl, plaintext, bob, alice);
                 //txtMessage.Text = "";
                 txtMessage.Focus();
 
